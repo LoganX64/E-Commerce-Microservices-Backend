@@ -1,0 +1,16 @@
+{
+  "name": "ecommerce-microservices",
+  "private": true,
+  "packageManager": "npm@10.0.0",
+  "workspaces": [
+    "apps/*"
+  ],
+  "devDependencies": {
+    "turbo": "^2.5.8"
+  },
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run start:dev --parallel",
+    "lint": "turbo run lint"
+  }
+}

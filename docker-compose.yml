@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: procura_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d procura_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  product-service:
+    build: ./apps/products-service
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: postgres123
+      DB_NAME: procura_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  order-service:
+    build: ./apps/orders-service
+    restart: always
+    ports:
+      - "3002:3002"
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASS: postgres123
+      DB_NAME: procura_db
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  api-gateway:
+    build: ./apps/api-gateway
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      PRODUCTS_SERVICE_URL: http://product-service:3001/products
+      ORDERS_SERVICE_URL: http://order-service:3002/orders
+      FRONTEND_SERVICE_URL: http://localhost:5173
+      API_KEY: supersecret123
+    depends_on:
+      - product-service
+      - order-service
+
+volumes:
+  pgdata:
