@@ -9,8 +9,9 @@
     "turbo": "^2.5.8"
   },
   "scripts": {
-    "build": "turbo run build",
     "dev": "turbo run start:dev --parallel",
-    "lint": "turbo run lint"
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test"
   }
 }

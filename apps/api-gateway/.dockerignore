@@ -15,13 +15,16 @@ dist
 coverage
 *.tsbuildinfo
 
-# Docker
-Dockerfile
-docker-compose*.yml
-
 # OS / editor stuff
 .DS_Store
 Thumbs.db
 .idea
 .vscode
 *.swp
+.git
+.gitignore
+
+# Test files
+test
+*.spec.ts
+*.test.ts
