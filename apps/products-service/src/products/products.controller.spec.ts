@@ -32,6 +32,7 @@ describe('ProductsController', () => {
     expect(controller).toBeDefined();
   });
 
+  // Test: POST /products
   it('should create a product', () => {
     const dto = { code: 'P1', name: 'A', description: 'D', price: 100 };
 
@@ -40,18 +41,21 @@ describe('ProductsController', () => {
     expect(controller.create(dto)).toEqual({ id: 1, ...dto });
   });
 
+  // Test: GET /products
   it('should return all products', () => {
     mockService.findAll.mockReturnValue([{ id: 1 }]);
 
     expect(controller.findAll()).toEqual([{ id: 1 }]);
   });
 
+  // Test: GET /products/:id
   it('should return one product', () => {
     mockService.findOne.mockReturnValue({ id: 1 });
 
     expect(controller.findOne('1')).toEqual({ id: 1 });
   });
 
+  // Test: PATCH /products/:id
   it('should update a product', async () => {
     const updateDto = { name: 'Updated Name' };
     const updatedProduct = { id: 1, ...updateDto };
@@ -64,6 +68,7 @@ describe('ProductsController', () => {
     expect(result).toEqual(updatedProduct);
   });
 
+  // Test: DELETE /products/:id
   it('should remove a product', async () => {
     mockService.remove.mockResolvedValue({ deleted: true });
 

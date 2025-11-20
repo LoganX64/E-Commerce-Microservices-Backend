@@ -36,6 +36,7 @@ describe('ProductsService', () => {
     expect(service).toBeDefined();
   });
 
+  // Test: should create product
   it('should create a product', async () => {
     const dto = { code: 'P1', name: 'Test', description: 'D', price: 10 };
 
@@ -46,18 +47,21 @@ describe('ProductsService', () => {
     expect(result).toEqual({ id: 1, ...dto });
   });
 
+  // Test: should return all products
   it('should return all products', async () => {
     mockRepository.find.mockResolvedValue([{ id: 1 }]);
 
     expect(await service.findAll()).toEqual([{ id: 1 }]);
   });
 
+  // Test: should return one product
   it('should return one product', async () => {
     mockRepository.findOneBy.mockResolvedValue({ id: 1 });
 
     expect(await service.findOne(1)).toEqual({ id: 1 });
   });
 
+  // Test: should update product
   it('should update a product', async () => {
     mockRepository.update.mockResolvedValue({ affected: 1 });
     mockRepository.findOneBy.mockResolvedValue({ id: 1, name: 'Updated' });
@@ -65,6 +69,8 @@ describe('ProductsService', () => {
     const result = await service.update(1, { name: 'Updated' });
     expect(result).toEqual({ id: 1, name: 'Updated' });
   });
+
+  // Test: should delete product
   it('should delete a product', async () => {
     mockRepository.delete.mockResolvedValue({ affected: 1 });
 
