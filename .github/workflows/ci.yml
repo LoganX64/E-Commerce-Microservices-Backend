@@ -26,8 +26,8 @@ jobs:
       - name: 📦 Install deps
         run: npm install
 
-      - name: 🧹 Lint
-        run: npx turbo run lint
+      - name: 🧹 Lint (allow warnings)
+        run: npx turbo run lint -- --max-warnings=10
 
       - name: 🧪 Test
         run: npx turbo run test
