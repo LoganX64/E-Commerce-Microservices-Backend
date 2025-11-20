@@ -3,21 +3,21 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 export class UpdateProductDto {
   @IsOptional()
   @IsString()
-  code: string;
+  code?: string;
 
   @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString()
-  description: string;
+  description?: string;
 
   @IsOptional()
   @IsNumber()
-  price: number;
+  price?: number;
 
   @IsOptional()
   @IsString()
-  image: string;
+  image?: string;
 }
