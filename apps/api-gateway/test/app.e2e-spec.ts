@@ -16,6 +16,7 @@ describe('AppController (e2e)', () => {
   });
 
   it('/ (GET)', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     await request(app.getHttpServer())
       .get('/')
       .expect(200)
