@@ -9,6 +9,10 @@
       "cache": false,
       "persistent": true
     },
-    "lint": {}
+    "lint": {},
+    "test": {
+      "dependsOn": ["^test"],
+      "outputs": []
+    }
   }
 }
