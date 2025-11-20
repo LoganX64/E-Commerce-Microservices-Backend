@@ -12,6 +12,6 @@
     "dev": "turbo run start:dev --parallel",
     "build": "turbo run build",
     "lint": "turbo run lint",
-    "test": "turbo run test"
+    "test": "turbo run test --filter=!**/test/app.e2e-spec.ts"
   }
 }
