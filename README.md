@@ -1,25 +1,54 @@
 # Microservices Backend
 
-This repository contains a microservices-based backend for the \*\*Microservices. It includes:
-
-- **Products Service** – CRUD operations for products.
-- **Orders Service** – Create and view orders.
-- **API Gateway** – Single entry point exposing REST APIs to the frontend.
-- **PostgreSQL** – Database for services.
-- **Docker Compose** – Containerized services.
-- **Optional Frontend** – NextJS/ReactJS UI to interact with the services.
+## This repository contains a complete microservices-based backend built with NestJS, Docker, PostgreSQL, API Gateway, GitHub Actions CI/CD, and optional ReactJS frontend.
 
 ---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [Prerequisites](#prerequisites)
-- [Setup](#setup)
-- [Running with Docker](#running-with-docker)
-- [API Endpoints](#api-endpoints)
-- [Sample Queries / Payloads](#sample-queries--payloads)
-- [Swagger / Postman](#swagger--postman)
-- [Notes](#notes)
+- **Features**
+- **Architecture**
+- **Prerequisites**
+- **Setup**
+- **Running with Docker**
+- **Environment Variables**
+- **Testing (Jest)**
+- **CI Pipeline (GitHub Actions)**
+- **CD Pipeline (Docker Hub Deployment)**
+- **API Endpoints**
+- **Sample Payloads**
+- **Notes**
+- **Context**
+
+---
+
+## 🚀 Features
+
+- **Products Service** – CRUD operations
+- **Orders Service** – Create orders & view orders
+- **API Gateway** – Routes requests to microservices
+- **PostgreSQL** database
+- **Docker Compose** for service orchestration
+- **Jest Testing** preconfigured for every service
+- **CI Pipeline** (Lint → Test → Build)
+- **CD Pipeline** (Build & Push Docker images to Docker Hub)
+- **TurboRepo** for monorepo task orchestration
+
+---
+
+## 🏗 Architecture
+
+```
+├── apps/
+│   ├── api-gateway/
+│   ├── orders-service/
+│   ├── products-service/
+├── docker-compose.yml
+├── turbo.json
+└── .github/workflows/
+    ├── ci.yml
+    └── cd-dockerhub.yml
+```
 
 ---
 
@@ -28,7 +57,8 @@ This repository contains a microservices-based backend for the \*\*Microservices
 - [Node.js](https://nodejs.org/) >= 20
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-- Optional: [Git](https://git-scm.com/)
+- [Git](https://git-scm.com/)
+- Docker Hub account for CD
 
 ---
 
@@ -90,6 +120,96 @@ To stop services:
 ```bash
 docker-compose down
 ```
+
+---
+
+## 🔐 Environment Variables
+
+### API Gateway
+
+```
+PORT=3000
+PRODUCTS_SERVICE_URL=http://products-service:3001/products
+ORDERS_SERVICE_URL=http://orders-service:3002/orders
+API_KEY=supersecret123
+
+```
+
+---
+
+### Orders / Products Service
+
+```
+DB_HOST=postgres
+DB_PORT=5432
+DB_USER=postgres
+DB_PASS=postgres123
+DB_NAME=micro_db
+
+```
+
+---
+
+## 🧪 Testing (Jest)
+
+This monorepo uses NestJS + Jest for unit testing.
+
+Run tests across all microservices:
+
+```
+npm run test
+```
+
+TurboRepo maps this to:
+
+```
+npx turbo run test
+```
+
+---
+
+## ⚙️ CI Pipeline (GitHub Actions)
+
+**Location:**  
+`.github/workflows/ci.yml`
+
+Runs automatically on pushes to `master`.
+
+### Pipeline Steps
+
+- Checkout repository
+- Setup Node.js
+- Install dependencies
+- Run linting
+- Run Jest tests
+- Run build
+
+A full CI workflow file is included in the repo.
+
+## 🚀 CD Pipeline (Docker Hub Deployment)
+
+**Location:**  
+`.github/workflows/cd-dockerhub.yml`
+
+Triggered on push to `master`.
+
+### This pipeline:
+
+- Logs in to Docker Hub
+- Builds each microservice image
+- Pushes images with tags:
+  - `latest`
+  - Git commit SHA
+
+### Example Pushed Images
+
+- `loganx64/orders-service:latest`
+- `loganx64/products-service:latest`
+- `loganx64/api-gateway:latest`
+
+## 🔒 Make Docker Hub Repository Private
+
+To make your Docker Hub container/image private:
 
 ---
 
@@ -163,13 +283,24 @@ POST /api/orders
 
 ## Notes
 
-- Ensure **DB_HOST / DB_PORT / DB_USER / DB_PASS / DB_NAME** are consistent between `.env` and `docker-compose.yml`.
-- API Gateway uses the `.env` file for service URLs and API_KEY authentication.
-- Containers wait for PostgreSQL health before connecting to avoid `ECONNREFUSED`.
-- Commit regularly with descriptive messages for better tracking.
+- Works with TurboRepo monorepo architecture
+- Docker Compose ensures each service waits for PostgreSQL
+- CI pipeline ensures only tested and passing code is deployed
+- CD pipeline always pushes fresh Docker images to Docker Hub
+- Jest ensures microservices behavior remains stable
 
 ---
 
 ## Context
 
-> Microservices-based backend with NestJS, PostgreSQL, API Gateway, Swagger, Docker Compose,github actions and optional ReactJS frontend.
+> This project demonstrates:
+
+- Microservices architecture
+- NestJS services
+- API Gateway pattern
+- Docker orchestration
+- PostgreSQL integration
+- Monorepo with TurboRepo
+- Jest unit testing
+- GitHub Actions CI & CD pipelines
+- Docker Hub image deployment
