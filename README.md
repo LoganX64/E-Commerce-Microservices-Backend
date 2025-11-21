@@ -172,4 +172,4 @@ POST /api/orders
 
 ## Context
 
-> Microservices-based backend with NestJS, PostgreSQL, API Gateway, Swagger, Docker Compose, and optional ReactJS frontend.
+> Microservices-based backend with NestJS, PostgreSQL, API Gateway, Swagger, Docker Compose,github actions and optional ReactJS frontend.
