@@ -1,63 +1,56 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { OrdersController } from './orders.controller';
-import { HttpService } from '@nestjs/axios';
 import { of } from 'rxjs';
-import { CreateOrderDto } from 'src/shared/create-order.dto';
+import { CreateOrderDto } from '../shared/create-order.dto';
 
 describe('OrdersController', () => {
   let controller: OrdersController;
-  let httpService: any;
+  let mockGrpcService: any;
 
   beforeEach(async () => {
-    const mockHttpService = {
-      get: jest.fn(),
-      post: jest.fn(),
+    mockGrpcService = {
+      findAll: jest.fn(),
+      findOne: jest.fn(),
+      createOrder: jest.fn(),
     };
 
-    process.env.ORDERS_SERVICE_URL = 'http://fake-orders-service/orders';
+    const mockClientGrpc = {
+      getService: jest.fn().mockReturnValue(mockGrpcService),
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [OrdersController],
       providers: [
         {
-          provide: HttpService,
-          useValue: mockHttpService,
+          provide: 'ORDERS_SERVICE',
+          useValue: mockClientGrpc,
         },
       ],
     }).compile();
 
     controller = module.get<OrdersController>(OrdersController);
-    httpService = module.get<HttpService>(HttpService);
+    controller.onModuleInit();
   });
-
-  // GET /orders
 
   it('should return all orders', async () => {
     const data = [{ id: 1 }];
-    httpService.get.mockReturnValue(of({ data }));
+    mockGrpcService.findAll.mockReturnValue(of({ orders: data }));
 
     const result = await controller.findAll().toPromise();
     expect(result).toEqual(data);
-    expect(httpService.get).toHaveBeenCalledWith(
-      'http://fake-orders-service/orders',
-    );
+    expect(mockGrpcService.findAll).toHaveBeenCalledWith({});
   });
-
-  // GET /orders/:id
 
   it('should return an order by id', async () => {
     const data = { id: 1 };
-    httpService.get.mockReturnValue(of({ data }));
+    mockGrpcService.findOne.mockReturnValue(of(data));
 
     const result = await controller.findOne('1').toPromise();
 
     expect(result).toEqual(data);
-    expect(httpService.get).toHaveBeenCalledWith(
-      'http://fake-orders-service/orders/1',
-    );
+    expect(mockGrpcService.findOne).toHaveBeenCalledWith({ id: 1 });
   });
 
-  // POST /orders
   it('should create an order', async () => {
     const dto: CreateOrderDto = {
       customer: { name: 'John', phone: '1234567890' },
@@ -66,15 +59,12 @@ describe('OrdersController', () => {
     };
 
     const resultData = { id: 1, ...dto };
-    httpService.post.mockReturnValue(of({ data: resultData }));
+    mockGrpcService.createOrder.mockReturnValue(of(resultData));
 
     const result = await controller.create(dto).toPromise();
 
     expect(result).toEqual(resultData);
-    expect(httpService.post).toHaveBeenCalledWith(
-      'http://fake-orders-service/orders',
-      dto,
-    );
+    expect(mockGrpcService.createOrder).toHaveBeenCalledWith(dto);
   });
 
   it('should be defined', () => {

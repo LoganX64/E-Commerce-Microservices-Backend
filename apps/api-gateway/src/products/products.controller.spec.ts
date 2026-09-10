@@ -1,65 +1,60 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from './products.controller';
-import { HttpService } from '@nestjs/axios';
 import { of } from 'rxjs';
-import { CreateProductDto } from 'src/shared/create-product.dto';
-import { UpdateProductDto } from 'src/shared/update-product.dto';
+import { CreateProductDto } from '../shared/create-product.dto';
+import { UpdateProductDto } from '../shared/update-product.dto';
 
 describe('ProductsController', () => {
   let controller: ProductsController;
-  let httpService: any;
+  let mockGrpcService: any;
 
   beforeEach(async () => {
-    const mockHttpService = {
-      get: jest.fn(),
-      post: jest.fn(),
-      patch: jest.fn(),
-      delete: jest.fn(),
+    mockGrpcService = {
+      findAll: jest.fn(),
+      findOne: jest.fn(),
+      createProduct: jest.fn(),
+      updateProduct: jest.fn(),
+      deleteProduct: jest.fn(),
     };
 
-    process.env.PRODUCTS_SERVICE_URL = 'http://fake-products-service/products';
+    const mockClientGrpc = {
+      getService: jest.fn().mockReturnValue(mockGrpcService),
+    };
 
     const module: TestingModule = await Test.createTestingModule({
       controllers: [ProductsController],
       providers: [
         {
-          provide: HttpService,
-          useValue: mockHttpService,
+          provide: 'PRODUCTS_SERVICE',
+          useValue: mockClientGrpc,
         },
       ],
     }).compile();
 
     controller = module.get<ProductsController>(ProductsController);
-    httpService = module.get<HttpService>(HttpService);
+    controller.onModuleInit();
   });
 
-  // GET /products
   it('should return all products', async () => {
     const data = [{ id: 1 }];
-    httpService.get.mockReturnValue(of({ data }));
+    mockGrpcService.findAll.mockReturnValue(of({ products: data }));
 
     const result = await controller.findAll().toPromise();
 
     expect(result).toEqual(data);
-    expect(httpService.get).toHaveBeenCalledWith(
-      'http://fake-products-service/products',
-    );
+    expect(mockGrpcService.findAll).toHaveBeenCalledWith({});
   });
 
-  // GET /products/:id
   it('should return product by id', async () => {
     const data = { id: 1 };
-    httpService.get.mockReturnValue(of({ data }));
+    mockGrpcService.findOne.mockReturnValue(of(data));
 
     const result = await controller.findOne('1').toPromise();
 
     expect(result).toEqual(data);
-    expect(httpService.get).toHaveBeenCalledWith(
-      'http://fake-products-service/products/1',
-    );
+    expect(mockGrpcService.findOne).toHaveBeenCalledWith({ id: 1 });
   });
 
-  // POST /products
   it('should create a product', async () => {
     const dto: CreateProductDto = {
       code: 'P001',
@@ -70,46 +65,37 @@ describe('ProductsController', () => {
     };
 
     const responseData = { id: 1, ...dto };
+    mockGrpcService.createProduct.mockReturnValue(of(responseData));
 
-    httpService.post.mockReturnValue(of({ data: responseData }));
-
-    const result = await controller.createProduct(dto);
+    const result = await controller.createProduct(dto).toPromise();
 
     expect(result).toEqual(responseData);
-    expect(httpService.post).toHaveBeenCalledWith(
-      'http://fake-products-service/products',
-      dto,
-    );
+    expect(mockGrpcService.createProduct).toHaveBeenCalledWith(dto);
   });
 
-  // PATCH /products/:id
   it('should update a product', async () => {
     const dto: UpdateProductDto = { name: 'Updated' };
     const responseData = { id: 1, name: 'Updated' };
 
-    httpService.patch.mockReturnValue(of({ data: responseData }));
+    mockGrpcService.updateProduct.mockReturnValue(of(responseData));
 
-    const result = await controller.updateProduct('1', dto);
+    const result = await controller.updateProduct('1', dto).toPromise();
 
     expect(result).toEqual(responseData);
-    expect(httpService.patch).toHaveBeenCalledWith(
-      'http://fake-products-service/products/1',
-      dto,
-    );
+    expect(mockGrpcService.updateProduct).toHaveBeenCalledWith({
+      id: 1,
+      ...dto,
+    });
   });
 
-  // DELETE /products/:id
   it('should delete a product', async () => {
     const responseData = { deleted: true };
+    mockGrpcService.deleteProduct.mockReturnValue(of(responseData));
 
-    httpService.delete.mockReturnValue(of({ data: responseData }));
-
-    const result = await controller.deleteProduct('1');
+    const result = await controller.deleteProduct('1').toPromise();
 
     expect(result).toEqual(responseData);
-    expect(httpService.delete).toHaveBeenCalledWith(
-      'http://fake-products-service/products/1',
-    );
+    expect(mockGrpcService.deleteProduct).toHaveBeenCalledWith({ id: 1 });
   });
 
   it('should be defined', () => {

@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package product;
+
+service ProductsService {
+  rpc FindAll (Empty) returns (ProductList);
+  rpc FindOne (ProductById) returns (Product);
+  rpc CreateProduct (CreateProductDto) returns (Product);
+  rpc UpdateProduct (UpdateProductDto) returns (Product);
+  rpc DeleteProduct (ProductById) returns (DeleteResponse);
+}
+
+message Empty {}
+
+message ProductById {
+  int32 id = 1;
+}
+
+message CreateProductDto {
+  string code = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  string image = 5;
+}
+
+message UpdateProductDto {
+  int32 id = 1;
+  optional string code = 2;
+  optional string name = 3;
+  optional string description = 4;
+  optional double price = 5;
+  optional string image = 6;
+}
+
+message Product {
+  int32 id = 1;
+  string code = 2;
+  string name = 3;
+  string description = 4;
+  double price = 5;
+  string image = 6;
+}
+
+message ProductList {
+  repeated Product products = 1;
+}
+
+message DeleteResponse {
+  bool deleted = 1;
+}

@@ -1,44 +1,38 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 
-@Controller('products')
+@Controller()
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post()
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
+  @GrpcMethod('ProductsService', 'FindAll')
+  async findAll() {
+    const products = await this.productsService.findAll();
+    return { products };
   }
 
-  @Get()
-  findAll() {
-    return this.productsService.findAll();
+  @GrpcMethod('ProductsService', 'FindOne')
+  async findOne(data: { id: number }) {
+    const product = await this.productsService.findOne(data.id);
+    return product || {};
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.productsService.findOne(+id);
+  @GrpcMethod('ProductsService', 'CreateProduct')
+  async createProduct(data: CreateProductDto) {
+    return this.productsService.create(data);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
-    // console.log('Updating product ID:', id);
-    // console.log('Update data:', updateProductDto);
-    return this.productsService.update(+id, updateProductDto);
+  @GrpcMethod('ProductsService', 'UpdateProduct')
+  async updateProduct(data: UpdateProductDto & { id: number }) {
+    const { id, ...updateData } = data;
+    return this.productsService.update(id, updateData);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.productsService.remove(+id);
+  @GrpcMethod('ProductsService', 'DeleteProduct')
+  async deleteProduct(data: { id: number }) {
+    return this.productsService.remove(data.id);
   }
 }

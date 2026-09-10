@@ -1,23 +1,26 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
+import { GrpcMethod } from '@nestjs/microservices';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { OrdersService } from './orders.service';
 
-@Controller('orders')
+@Controller()
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Post()
-  create(@Body() dto: CreateOrderDto) {
-    return this.ordersService.create(dto);
+  @GrpcMethod('OrdersService', 'CreateOrder')
+  async createOrder(data: CreateOrderDto) {
+    return this.ordersService.create(data);
   }
 
-  @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  @GrpcMethod('OrdersService', 'FindAll')
+  async findAll() {
+    const orders = await this.ordersService.findAll();
+    return { orders };
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ordersService.findOne(+id);
+  @GrpcMethod('OrdersService', 'FindOne')
+  async findOne(data: { id: number }) {
+    const order = await this.ordersService.findOne(data.id);
+    return order || {};
   }
 }

@@ -1,7 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ProductsController } from './products.controller';
-import { Product } from './entities/product.entity';
-import { Repository } from 'typeorm';
 import { ProductsService } from './products.service';
 
 describe('ProductsController', () => {
@@ -32,47 +30,44 @@ describe('ProductsController', () => {
     expect(controller).toBeDefined();
   });
 
-  // Test: POST /products
-  it('should create a product', () => {
+  it('should create a product', async () => {
     const dto = { code: 'P1', name: 'A', description: 'D', price: 100 };
+    mockService.create.mockResolvedValue({ id: 1, ...dto });
 
-    mockService.create.mockReturnValue({ id: 1, ...dto });
-
-    expect(controller.create(dto)).toEqual({ id: 1, ...dto });
+    const result = await controller.createProduct(dto);
+    expect(result).toEqual({ id: 1, ...dto });
   });
 
-  // Test: GET /products
-  it('should return all products', () => {
-    mockService.findAll.mockReturnValue([{ id: 1 }]);
+  it('should return all products', async () => {
+    mockService.findAll.mockResolvedValue([{ id: 1 }]);
 
-    expect(controller.findAll()).toEqual([{ id: 1 }]);
+    const result = await controller.findAll();
+    expect(result).toEqual({ products: [{ id: 1 }] });
   });
 
-  // Test: GET /products/:id
-  it('should return one product', () => {
-    mockService.findOne.mockReturnValue({ id: 1 });
+  it('should return one product', async () => {
+    mockService.findOne.mockResolvedValue({ id: 1 });
 
-    expect(controller.findOne('1')).toEqual({ id: 1 });
+    const result = await controller.findOne({ id: 1 });
+    expect(result).toEqual({ id: 1 });
   });
 
-  // Test: PATCH /products/:id
   it('should update a product', async () => {
-    const updateDto = { name: 'Updated Name' };
-    const updatedProduct = { id: 1, ...updateDto };
+    const updateDto = { id: 1, name: 'Updated Name' };
+    const updatedProduct = { id: 1, name: 'Updated Name' };
 
     mockService.update.mockResolvedValue(updatedProduct);
 
-    const result = await controller.update('1', updateDto);
+    const result = await controller.updateProduct(updateDto);
 
-    expect(mockService.update).toHaveBeenCalledWith(1, updateDto);
+    expect(mockService.update).toHaveBeenCalledWith(1, { name: 'Updated Name' });
     expect(result).toEqual(updatedProduct);
   });
 
-  // Test: DELETE /products/:id
-  it('should remove a product', async () => {
+  it('should delete a product', async () => {
     mockService.remove.mockResolvedValue({ deleted: true });
 
-    const result = await controller.remove('1');
+    const result = await controller.deleteProduct({ id: 1 });
 
     expect(mockService.remove).toHaveBeenCalledWith(1);
     expect(result).toEqual({ deleted: true });

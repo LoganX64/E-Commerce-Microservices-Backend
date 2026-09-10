@@ -3,79 +3,76 @@ import {
   Controller,
   Delete,
   Get,
+  Inject,
+  OnModuleInit,
   Param,
   Patch,
   Post,
 } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
+import type { ClientGrpc } from '@nestjs/microservices';
 import { map } from 'rxjs/operators';
-import { firstValueFrom, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ApiBody, ApiOperation, ApiParam, ApiTags } from '@nestjs/swagger';
 import { CreateProductDto } from '../shared/create-product.dto';
 import { UpdateProductDto } from '../shared/update-product.dto';
 
-interface Product {
-  id: string;
-  name: string;
-  price: number;
-  stock: number;
+interface ProductsGrpcService {
+  findAll(data: {}): Observable<{ products: any[] }>;
+  findOne(data: { id: number }): Observable<any>;
+  createProduct(data: any): Observable<any>;
+  updateProduct(data: any): Observable<any>;
+  deleteProduct(data: { id: number }): Observable<{ deleted: boolean }>;
 }
 
 @Controller('products')
 @ApiTags('products')
-export class ProductsController {
-  constructor(private httpService: HttpService) {}
+export class ProductsController implements OnModuleInit {
+  private productsGrpcService: ProductsGrpcService;
 
-  private readonly productsServiceUrl = process.env.PRODUCTS_SERVICE_URL!;
+  constructor(@Inject('PRODUCTS_SERVICE') private client: ClientGrpc) {}
+
+  onModuleInit() {
+    this.productsGrpcService =
+      this.client.getService<ProductsGrpcService>('ProductsService');
+  }
 
   @Get()
   @ApiOperation({ summary: 'Get all products' })
-  findAll(): Observable<Product[]> {
-    return this.httpService
-      .get(this.productsServiceUrl) // Products Service URL
-      .pipe(map((response) => response.data as Product[]));
+  findAll(): Observable<any[]> {
+    return this.productsGrpcService
+      .findAll({})
+      .pipe(map((response) => response.products || []));
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get product by ID' })
   @ApiParam({ name: 'id', type: 'string' })
-  findOne(@Param('id') id: string): Observable<Product> {
-    return this.httpService
-      .get<Product>(`${this.productsServiceUrl}/${id}`)
-      .pipe(map((response) => response.data));
+  findOne(@Param('id') id: string): Observable<any> {
+    return this.productsGrpcService.findOne({ id: +id });
   }
 
   @Post()
   @ApiOperation({ summary: 'Create a product' })
   @ApiBody({ type: CreateProductDto })
-  async createProduct(@Body() body: CreateProductDto): Promise<Product> {
-    const response = await firstValueFrom(
-      this.httpService.post(this.productsServiceUrl, body),
-    );
-    return response.data as Product;
+  createProduct(@Body() body: CreateProductDto): Observable<any> {
+    return this.productsGrpcService.createProduct(body);
   }
 
   @Patch(':id')
   @ApiOperation({ summary: 'Update a product by ID' })
   @ApiParam({ name: 'id', type: 'string' })
   @ApiBody({ type: UpdateProductDto })
-  async updateProduct(
+  updateProduct(
     @Param('id') id: string,
     @Body() body: UpdateProductDto,
-  ): Promise<Product> {
-    const response = await firstValueFrom(
-      this.httpService.patch(`${this.productsServiceUrl}/${id}`, body),
-    );
-    return response.data as Product;
+  ): Observable<any> {
+    return this.productsGrpcService.updateProduct({ id: +id, ...body });
   }
 
   @Delete(':id')
   @ApiOperation({ summary: 'Delete product by ID' })
   @ApiParam({ name: 'id', type: 'string' })
-  async deleteProduct(@Param('id') id: string): Promise<{ deleted: boolean }> {
-    const response = await firstValueFrom(
-      this.httpService.delete(`${this.productsServiceUrl}/${id}`),
-    );
-    return response.data as { deleted: boolean };
+  deleteProduct(@Param('id') id: string): Observable<{ deleted: boolean }> {
+    return this.productsGrpcService.deleteProduct({ id: +id });
   }
 }

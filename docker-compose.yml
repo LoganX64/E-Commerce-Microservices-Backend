@@ -20,8 +20,9 @@ services:
     build: ./apps/products-service
     restart: always
     ports:
-      - "3001:3001"
+      - "50051:50051"
     environment:
+      GRPC_PORT: 50051
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: postgres
@@ -35,8 +36,9 @@ services:
     build: ./apps/orders-service
     restart: always
     ports:
-      - "3002:3002"
+      - "50052:50052"
     environment:
+      GRPC_PORT: 50052
       DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: postgres
@@ -52,8 +54,8 @@ services:
     ports:
       - "3000:3000"
     environment:
-      PRODUCTS_SERVICE_URL: http://product-service:3001/products
-      ORDERS_SERVICE_URL: http://order-service:3002/orders
+      PRODUCTS_GRPC_URL: product-service:50051
+      ORDERS_GRPC_URL: order-service:50052
       FRONTEND_SERVICE_URL: http://localhost:5173
       API_KEY: supersecret123
     depends_on:
