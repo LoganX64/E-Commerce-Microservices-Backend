@@ -1,11 +1,17 @@
 name: CD - Docker Hub
 
+# Disabled automatic Docker Hub push triggers
+# To re-enable automatic deployments on git push, uncomment the push trigger below:
+# on:
+#   push:
+#     branches: ["master"]
+
 on:
-  push:
-    branches: ["master"]
+  workflow_dispatch: # Disabled automatic push. Manual trigger only.
 
 jobs:
   build-and-push:
+    if: false # Disabled job execution
     runs-on: ubuntu-latest
     steps:
       ## Checkout the repository
