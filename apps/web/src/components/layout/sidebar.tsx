@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PackageIcon, ShoppingCartIcon, MenuIcon } from "lucide-react";
+import { PackageIcon, ShoppingCartIcon, MenuIcon, HomeIcon } from "lucide-react";
 import { cn } from "cn";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +14,7 @@ import {
 import { CartButton } from "./cart-button";
 
 const sidebarLinks = [
+  { href: "/", label: "Home", icon: HomeIcon },
   { href: "/dashboard/products", label: "Products", icon: PackageIcon },
   { href: "/dashboard/orders", label: "Orders", icon: ShoppingCartIcon },
 ];
