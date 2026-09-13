@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { HomeIcon, PackageIcon, ShoppingCartIcon } from "lucide-react";
+import { HomeIcon, PackageIcon, ShoppingCartIcon, LayoutDashboardIcon } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sidebar";
 
 const sidebarLinks = [
-  { href: "/", label: "Home", icon: HomeIcon },
+  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboardIcon },
   { href: "/dashboard/products", label: "Products", icon: PackageIcon },
   { href: "/dashboard/orders", label: "Orders", icon: ShoppingCartIcon },
 ];
@@ -31,8 +31,8 @@ function SidebarNav() {
           {sidebarLinks.map((link) => {
             const Icon = link.icon;
             const isActive =
-              link.href === "/"
-                ? pathname === "/"
+              link.href === "/dashboard"
+                ? pathname === "/dashboard"
                 : pathname.startsWith(link.href);
             return (
               <SidebarMenuItem key={link.href}>
@@ -56,8 +56,18 @@ function SidebarNav() {
 export function AppSidebar() {
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-sidebar-border">
-        <SidebarTrigger className="ml-auto" />
+      <SidebarHeader className="border-b border-sidebar-border px-4 py-3">
+        <Link
+          href="/"
+          className="flex items-center gap-2 text-sm font-bold tracking-tight text-sidebar-foreground"
+        >
+          <span className="flex size-7 items-center justify-center rounded-md bg-primary text-xs font-bold text-primary-foreground">
+            V
+          </span>
+          <span className="group-data-[collapsible=icon]:hidden">
+            VoltGrid
+          </span>
+        </Link>
       </SidebarHeader>
       <SidebarContent>
         <SidebarNav />

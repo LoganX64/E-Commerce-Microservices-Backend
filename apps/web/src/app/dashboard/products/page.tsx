@@ -18,19 +18,24 @@ export default async function DashboardProductsPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          Products
-        </h1>
-        <Button
-          render={<Link href="/dashboard/products/new" />}
-          nativeButton={false}
-          className="rounded-lg bg-primary text-primary-foreground font-semibold transition-colors hover:bg-primary/80"
-        >
-          Add product
-        </Button>
-      </div>
-      <div className="mt-6">
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+              Products
+            </h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Manage your electronics inventory.
+            </p>
+          </div>
+          <Button
+            render={<Link href="/dashboard/products/new" />}
+            nativeButton={false}
+            className="rounded-lg bg-primary text-primary-foreground font-semibold transition-colors hover:bg-primary/80"
+          >
+            Add Product
+          </Button>
+        </div>
         <ProductsDashboardView />
       </div>
     </HydrationBoundary>
