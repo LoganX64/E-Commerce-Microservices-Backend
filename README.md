@@ -1,29 +1,31 @@
-# Microservices Backend
+# E-Commerce Microservices Backend
 
-## This repository contains a complete microservices-based backend built with NestJS, Docker, PostgreSQL, API Gateway, GitHub Actions CI/CD, and optional ReactJS frontend.
+A complete microservices-based backend built with NestJS, Docker, PostgreSQL, API Gateway, GitHub Actions CI/CD, and a Next.js frontend.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 - **Features**
 - **Architecture**
+- **Tech Stack**
 - **Prerequisites**
 - **Setup**
 - **Running with Docker**
+- **Running Locally**
 - **Environment Variables**
-- **Testing (Jest)**
-- **CI Pipeline (GitHub Actions)**
-- **CD Pipeline (Docker Hub Deployment)**
 - **API Endpoints**
 - **Sample Payloads**
+- **Testing (Jest)**
+- **CI/CD Pipelines**
+- **Frontend**
 - **Notes**
-- **Context**
 
 ---
 
-## 🚀 Features
+## Features
 
+### Backend
 - **Products Service** – CRUD operations
 - **Orders Service** – Create orders & view orders
 - **API Gateway** – Routes requests to microservices
@@ -34,21 +36,58 @@
 - **CD Pipeline** (Build & Push Docker images to Docker Hub)
 - **TurboRepo** for monorepo task orchestration
 
+### Frontend
+- **Next.js 16** with App Router
+- **Tailwind CSS v4** for styling
+- **shadcn/ui** components
+- **Aceternity UI** animated components
+- **TanStack Query** for server state
+- **Zustand** for cart state
+- **Zod** for form validation
+- **Docker** support with standalone output
+
 ---
 
-## 🏗 Architecture
+## Architecture
 
 ```
 ├── apps/
-│   ├── api-gateway/
-│   ├── orders-service/
-│   ├── products-service/
+│   ├── api-gateway/        # HTTP REST → gRPC router (port 3001)
+│   ├── orders-service/     # gRPC microservice (port 50052)
+│   ├── products-service/   # gRPC microservice (port 50051)
+│   └── web/                # Next.js frontend (port 3000)
 ├── docker-compose.yml
 ├── turbo.json
 └── .github/workflows/
     ├── ci.yml
     └── cd-dockerhub.yml
 ```
+
+```
+Browser
+  │
+  ▼
+Next.js (port 3000) ──HTTP──▶ API Gateway (port 3001) ──gRPC──▶ Products Service (port 50051)
+                                                    │
+                                                    └────────gRPC──▶ Orders Service (port 50052)
+```
+
+---
+
+## Tech Stack
+
+| Layer | Library |
+|-------|---------|
+| Backend Framework | NestJS |
+| Frontend Framework | Next.js 16 (App Router) |
+| Styling | Tailwind CSS v4 |
+| UI Components | shadcn/ui + Aceternity UI |
+| Server State | TanStack Query |
+| Client State | Zustand (cart) |
+| Validation | Zod |
+| Database | PostgreSQL |
+| Containerization | Docker + Docker Compose |
+| Monorepo | TurboRepo |
 
 ---
 
@@ -58,7 +97,7 @@
 - [Docker](https://www.docker.com/get-started)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 - [Git](https://git-scm.com/)
-- Docker Hub account for CD
+- Docker Hub account for CD (optional)
 
 ---
 
@@ -71,49 +110,29 @@ git clone <repo_url>
 cd E-Commerce-Microservices-Backend
 ```
 
-2. Copy `.env.example` to `.env` (or create `.env` in each service if needed):
-
-```env
-# api-gateway/.env
-API_KEY=supersecret123
-PRODUCTS_SERVICE_URL=http://product-service:3001/products
-ORDERS_SERVICE_URL=http://order-service:3002/orders
-PORT=3000
-```
-
-```env
-# product-service/.env & order-service/.env
-DB_HOST=postgres
-DB_PORT=5432
-DB_USER=postgres
-DB_PASS=postgres123
-DB_NAME=procura_db
-```
-
-3. Install dependencies (if running services locally without Docker):
+2. Install dependencies:
 
 ```bash
-cd api-gateway
-npm install
-cd ../products-service
-npm install
-cd ../orders-service
 npm install
 ```
+
+3. Create environment files (see [Environment Variables](#environment-variables)).
 
 ---
 
 ## Running with Docker
 
-Spin up **PostgreSQL**, microservices, and API Gateway with Docker Compose:
+Spin up all services (PostgreSQL, microservices, API Gateway, and frontend):
 
 ```bash
 docker-compose up --build
 ```
 
-- **API Gateway:** http://localhost:3000
-- **Products Service:** http://localhost:3001/products
-- **Orders Service:** http://localhost:3002/orders
+| Service | URL |
+|---------|-----|
+| Frontend | http://localhost:3000 |
+| API Gateway | http://localhost:3001 |
+| Swagger UI | http://localhost:3001/api-docs |
 
 To stop services:
 
@@ -123,125 +142,102 @@ docker-compose down
 
 ---
 
-## 🔐 Environment Variables
+## Running Locally
 
-### API Gateway
+1. Start the backend services:
 
+```bash
+npm run dev
 ```
-PORT=3000
-PRODUCTS_SERVICE_URL=http://products-service:3001/products
-ORDERS_SERVICE_URL=http://orders-service:3002/orders
-API_KEY=supersecret123
 
+This runs all backend services in parallel via TurboRepo.
+
+2. In a separate terminal, start the frontend:
+
+```bash
+npm run dev:web
 ```
+
+Or run everything together:
+
+```bash
+npm run dev
+```
+
+### Available Commands
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start all services (backend + frontend) |
+| `npm run dev:web` | Start frontend only |
+| `npm run build` | Build all services |
+| `npm run build:web` | Build frontend only |
+| `npm run lint` | Lint all services |
+| `npm run test` | Run all tests |
 
 ---
 
-### Orders / Products Service
+## Environment Variables
 
+### API Gateway (`apps/api-gateway/.env`)
+
+```env
+PORT=3001
+PRODUCTS_SERVICE_URL=http://products-service:50051
+ORDERS_SERVICE_URL=http://orders-service:50052
+FRONTEND_SERVICE_URL=http://web:3000
+API_KEY=supersecret123
 ```
+
+### Products / Orders Service
+
+```env
 DB_HOST=postgres
 DB_PORT=5432
 DB_USER=postgres
 DB_PASS=postgres123
-DB_NAME=micro_db
-
+DB_NAME=procura_db
 ```
 
----
+### Frontend (`apps/web/.env.local`)
 
-## 🧪 Testing (Jest)
-
-This monorepo uses NestJS + Jest for unit testing.
-
-Run tests across all microservices:
-
+```env
+NEXT_PUBLIC_API_URL=http://localhost:3001
+NEXT_PUBLIC_API_KEY=supersecret123
 ```
-npm run test
-```
-
-TurboRepo maps this to:
-
-```
-npx turbo run test
-```
-
----
-
-## ⚙️ CI Pipeline (GitHub Actions)
-
-**Location:**  
-`.github/workflows/ci.yml`
-
-Runs automatically on pushes to `master`.
-
-### Pipeline Steps
-
-- Checkout repository
-- Setup Node.js
-- Install dependencies
-- Run linting
-- Run Jest tests
-- Run build
-
-A full CI workflow file is included in the repo.
-
-## 🚀 CD Pipeline (Docker Hub Deployment)
-
-**Location:**  
-`.github/workflows/cd-dockerhub.yml`
-
-Triggered on push to `master`.
-
-### This pipeline:
-
-- Logs in to Docker Hub
-- Builds each microservice image
-- Pushes images with tags:
-  - `latest`
-  - Git commit SHA
-
-### Example Pushed Images
-
-- `loganx64/orders-service:latest`
-- `loganx64/products-service:latest`
-- `loganx64/api-gateway:latest`
-
-## 🔒 Make Docker Hub Repository Private
-
-To make your Docker Hub container/image private:
 
 ---
 
 ## API Endpoints
 
-**API Gateway routes all requests under `/api`**
+**API Gateway routes all requests under `/api-docs`**
 
 ### Products
 
-| Method | Endpoint          | Description          |
-| ------ | ----------------- | -------------------- |
-| GET    | /api/products     | Get all products     |
-| GET    | /api/products/:id | Get product by ID    |
-| POST   | /api/products     | Create new product   |
-| DELETE | /api/products/:id | Delete product by ID |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api-docs/products | Get all products |
+| GET | /api-docs/products/:id | Get product by ID |
+| POST | /api-docs/products | Create new product |
+| PATCH | /api-docs/products/:id | Update product |
+| DELETE | /api-docs/products/:id | Delete product |
 
 ### Orders
 
-| Method | Endpoint        | Description      |
-| ------ | --------------- | ---------------- |
-| GET    | /api/orders     | Get all orders   |
-| GET    | /api/orders/:id | Get order by ID  |
-| POST   | /api/orders     | Create new order |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api-docs/orders | Get all orders |
+| GET | /api-docs/orders/:id | Get order by ID |
+| POST | /api-docs/orders | Create new order |
 
 ---
 
-## Sample Queries / Payloads
+## Sample Payloads
 
 ### Create Product
 
 ```json
-POST /api/products
+POST /api-docs/products
 {
   "code": "P001",
   "name": "Smartphone",
@@ -254,7 +250,7 @@ POST /api/products
 ### Create Order
 
 ```json
-POST /api/orders
+POST /api-docs/orders
 {
   "customer": {
     "name": "John Doe",
@@ -263,7 +259,9 @@ POST /api/orders
   "products": [
     {
       "id": 1,
-      "quantity": 2
+      "name": "Smartphone",
+      "rate": 499.99,
+      "qty": 2
     }
   ],
   "totalAmount": 999.98
@@ -272,12 +270,71 @@ POST /api/orders
 
 ---
 
-## Swagger / Postman
+## Testing (Jest)
 
-- Swagger UI is available (if enabled) at:  
-  `http://localhost:3000/api-docs`
+Run tests across all microservices:
 
-- You can also import a Postman collection (optional) for testing APIs.
+```bash
+npm run test
+```
+
+Or via TurboRepo directly:
+
+```bash
+npx turbo run test
+```
+
+---
+
+## CI/CD Pipelines
+
+### CI Pipeline (`.github/workflows/ci.yml`)
+
+Runs automatically on pushes to `master`.
+
+- Checkout repository
+- Setup Node.js
+- Install dependencies
+- Run linting
+- Run Jest tests
+- Run build
+
+### CD Pipeline (`.github/workflows/cd-dockerhub.yml`)
+
+Triggered on push to `master`.
+
+- Logs in to Docker Hub
+- Builds each microservice image
+- Pushes images with tags: `latest` and git commit SHA
+
+---
+
+## Frontend
+
+The Next.js frontend provides:
+
+- **Storefront** (`/`) – Homepage, product listing, product detail, cart
+- **Dashboard** (`/dashboard`) – Admin panel for managing products and orders
+
+### Frontend Routes
+
+| Route | Description |
+|-------|-------------|
+| `/` | Homepage with featured products |
+| `/products` | Product listing with filters |
+| `/products/[id]` | Product detail page |
+| `/cart` | Shopping cart |
+| `/dashboard` | Admin dashboard |
+| `/dashboard/products` | Product management |
+| `/dashboard/products/new` | Create product |
+| `/dashboard/products/[id]` | Edit product |
+| `/dashboard/orders` | Order management |
+| `/dashboard/orders/[id]` | Order detail |
+| `/dashboard/orders/new` | Create order |
+
+### Deploying to Vercel
+
+The frontend is Vercel-ready. Connect your Git repository to Vercel and it will auto-detect Next.js.
 
 ---
 
@@ -288,19 +345,4 @@ POST /api/orders
 - CI pipeline ensures only tested and passing code is deployed
 - CD pipeline always pushes fresh Docker images to Docker Hub
 - Jest ensures microservices behavior remains stable
-
----
-
-## Context
-
-> This project demonstrates:
-
-- Microservices architecture
-- NestJS services
-- API Gateway pattern
-- Docker orchestration
-- PostgreSQL integration
-- Monorepo with TurboRepo
-- Jest unit testing
-- GitHub Actions CI & CD pipelines
-- Docker Hub image deployment
+- Frontend uses standalone output for Docker deployment
