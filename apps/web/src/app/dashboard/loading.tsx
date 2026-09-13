@@ -1,26 +1,29 @@
+import { Skeleton } from "@/components/ui/skeleton"
+
 export default function DashboardLoading() {
   return (
-    <div className="flex min-h-screen">
-      {/* Sidebar skeleton */}
-      <div className="hidden w-56 shrink-0 border-r border-border bg-card lg:block" />
-
-      {/* Main content */}
-      <main className="flex-1 p-4 lg:p-6">
-        <div className="mx-auto max-w-6xl space-y-6">
-          {/* Header skeleton */}
-          <div className="h-8 w-48 animate-pulse rounded-lg bg-muted" />
-
-          {/* Content skeleton */}
-          <div className="space-y-3">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div
-                key={i}
-                className="h-12 animate-pulse rounded-xl border border-border bg-card"
-              />
-            ))}
+    <>
+      <header className="flex h-12 shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear">
+        <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+          <Skeleton className="h-5 w-5" />
+          <Skeleton className="h-4 w-px mx-2" />
+          <Skeleton className="h-4 w-24" />
+        </div>
+      </header>
+      <div className="flex flex-1 flex-col">
+        <div className="@container/main flex flex-1 flex-col gap-2">
+          <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+            <div className="grid grid-cols-1 gap-4 px-4 lg:px-6 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <Skeleton key={i} className="h-[120px] rounded-xl" />
+              ))}
+            </div>
+            <div className="px-4 lg:px-6">
+              <Skeleton className="h-[300px] w-full rounded-xl" />
+            </div>
           </div>
         </div>
-      </main>
-    </div>
-  );
+      </div>
+    </>
+  )
 }

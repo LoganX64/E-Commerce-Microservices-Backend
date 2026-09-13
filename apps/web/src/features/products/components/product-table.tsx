@@ -36,14 +36,26 @@ export function ProductTable({ products }: { products: Product[] }) {
 
   return (
     <>
-      <div className="rounded-xl border border-border bg-card">
+      <div className="border border-border">
         <Table>
           <TableHeader>
             <TableRow className="border-border hover:bg-transparent">
-              <TableHead className="text-muted-foreground">Name</TableHead>
-              <TableHead className="text-muted-foreground">Code</TableHead>
-              <TableHead className="text-muted-foreground">Price</TableHead>
-              <TableHead className="w-[100px] text-muted-foreground">
+              <TableHead className="text-muted-foreground w-16">
+                Image
+              </TableHead>
+              <TableHead className="text-muted-foreground min-w-[100px]">
+                Name
+              </TableHead>
+              <TableHead className="text-muted-foreground w-24">
+                Code
+              </TableHead>
+              <TableHead className="text-muted-foreground">
+                Description
+              </TableHead>
+              <TableHead className="text-muted-foreground w-20">
+                Price
+              </TableHead>
+              <TableHead className="text-muted-foreground w-[100px]">
                 Actions
               </TableHead>
             </TableRow>
@@ -51,36 +63,50 @@ export function ProductTable({ products }: { products: Product[] }) {
           <TableBody>
             {products.map((product) => (
               <TableRow key={product.id} className="border-border">
-                <TableCell className="font-medium text-card-foreground">
+                <TableCell className="flex items-center">
+                  {product.image ? (
+                    <img
+                      src={product.image}
+                      alt={`${product.name} thumbnail`}
+                      className="h-10 w-10 rounded object-cover border"
+                    />
+                  ) : (
+                    <div className="h-10 w-10 rounded bg-muted flex items-center justify-center text-xs">
+                      No Image
+                    </div>
+                  )}
+                </TableCell>
+                <TableCell className="font-medium text-card-foreground min-w-[100px]">
                   {product.name}
                 </TableCell>
-                <TableCell className="font-mono text-xs text-muted-foreground">
+                <TableCell className="font-mono text-xs text-muted-foreground w-24">
                   {product.code}
                 </TableCell>
-                <TableCell className="text-card-foreground">
+                <TableCell className="text-sm text-muted-foreground line-clamp-2 max-w-[200px]">
+                  {product.description}
+                </TableCell>
+                <TableCell className="text-card-foreground font-mono w-20">
                   ${product.price.toFixed(2)}
                 </TableCell>
-                <TableCell>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      render={<Link href={`/dashboard/products/${product.id}`} />}
-                      nativeButton={false}
-                      variant="ghost"
-                      size="icon-sm"
-                    >
-                      <PencilIcon className="size-3.5" />
-                      <span className="sr-only">Edit</span>
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      className="text-destructive hover:text-destructive"
-                      onClick={() => setDeleteTarget(product)}
-                    >
-                      <TrashIcon className="size-3.5" />
-                      <span className="sr-only">Delete</span>
-                    </Button>
-                  </div>
+                <TableCell className="flex items-center gap-1 w-[100px]">
+                  <Button
+                    render={<Link href={`/dashboard/products/${product.id}`} />}
+                    nativeButton={false}
+                    variant="ghost"
+                    size="icon-sm"
+                  >
+                    <PencilIcon className="size-3.5" />
+                    <span className="sr-only">Edit</span>
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon-sm"
+                    className="text-destructive hover:text-destructive"
+                    onClick={() => setDeleteTarget(product)}
+                  >
+                    <TrashIcon className="size-3.5" />
+                    <span className="sr-only">Delete</span>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}

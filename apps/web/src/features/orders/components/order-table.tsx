@@ -15,7 +15,7 @@ import type { Order } from "@/features/orders/types";
 
 export function OrderTable({ orders }: { orders: Order[] }) {
   return (
-    <div className="rounded-xl border border-border bg-card">
+    <div className="border border-border">
       <Table>
         <TableHeader>
           <TableRow className="border-border hover:bg-transparent">

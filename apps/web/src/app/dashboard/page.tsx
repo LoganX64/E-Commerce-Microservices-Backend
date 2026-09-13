@@ -6,7 +6,7 @@ import {
 } from "@tanstack/react-query";
 import { getProducts } from "@/features/products/api";
 import { getOrders } from "@/features/orders/api";
-import { DashboardStats } from "./components/dashboard-stats";
+import { SectionCards as DashboardStats } from "@/components/section-cards";
 import { Button } from "@/components/ui/button";
 
 export default async function DashboardPage() {
@@ -34,35 +34,25 @@ export default async function DashboardPage() {
         <DashboardStats />
 
         {/* Quick Actions */}
-        <div className="rounded-xl border border-border bg-card p-6">
-          <h2 className="text-lg font-semibold text-card-foreground">
-            Quick Actions
-          </h2>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Manage your electronics inventory and orders.
-          </p>
-          <div className="mt-4 flex flex-wrap gap-3">
-            <Button
-              render={<Link href="/dashboard/products/new" />}
-              nativeButton={false}
-              className="rounded-lg bg-primary text-primary-foreground font-semibold transition-colors hover:bg-primary/80"
+        <div className="flex flex-col gap-4 mt-8">
+          <div className="flex items-center justify-between border-b border-border/50 pb-2">
+            <h2 className="text-sm font-semibold tracking-wider text-muted-foreground uppercase">
+              Quick Actions
+            </h2>
+          </div>
+          <div className="flex flex-col gap-2 md:flex-row md:gap-8">
+            <Link 
+              href="/dashboard/products/new" 
+              className="group flex items-center gap-2 text-base font-medium transition-colors hover:text-primary"
             >
-              Add Product
-            </Button>
-            <Button
-              render={<Link href="/dashboard/orders/new" />}
-              variant="outline"
-              className="rounded-lg font-semibold"
+              Add Product <span className="text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
+            </Link>
+            <Link 
+              href="/" 
+              className="group flex items-center gap-2 text-base font-medium transition-colors hover:text-primary"
             >
-              Create Order
-            </Button>
-            <Button
-              render={<Link href="/" />}
-              variant="ghost"
-              className="rounded-lg font-semibold"
-            >
-              View Store
-            </Button>
+              View Store <span className="text-muted-foreground transition-transform group-hover:translate-x-1 group-hover:-translate-y-1">↗</span>
+            </Link>
           </div>
         </div>
       </div>
