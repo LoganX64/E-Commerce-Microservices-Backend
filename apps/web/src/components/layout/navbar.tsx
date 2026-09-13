@@ -59,7 +59,7 @@ export function Navbar() {
           href="/"
           className="text-sm font-semibold tracking-tight text-foreground"
         >
-          Commerce
+          VoltGrid
         </Link>
 
         {/* Desktop nav */}

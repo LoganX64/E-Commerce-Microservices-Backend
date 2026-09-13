@@ -5,11 +5,11 @@ export function HomepageHero() {
     <section className="relative flex h-[80vh] min-h-[500px] w-full items-center justify-center overflow-hidden">
       <div className="relative z-10 flex flex-col items-center gap-8 px-6 text-center">
         <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-7xl">
-          Built Different
+          VoltGrid
         </h1>
         <p className="max-w-lg text-lg leading-relaxed text-muted-foreground">
-          E-commerce infrastructure that adapts to your business. Browse
-          curated products from independent makers.
+          Premium electronics goods curated for you. Browse top-tier gadgets,
+          components, and accessories.
         </p>
         <Link
           href="/products"
