@@ -8,10 +8,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import {
-  createProductSchema,
-  type CreateProductInput,
-} from "@/features/products/schemas";
+import { RefreshCw } from "lucide-react";
+import { createProductSchema, type CreateProductInput } from "@/features/products/schemas";
 import {
   useCreateProduct,
   useUpdateProduct,
@@ -20,6 +18,15 @@ import type { Product } from "@/features/products/types";
 
 interface ProductFormProps {
   product?: Product;
+}
+
+function generateProductCode() {
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+  let randomStr = "";
+  for (let i = 0; i < 6; i++) {
+    randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return `PRD-${randomStr}`;
 }
 
 export function ProductForm({ product }: ProductFormProps) {
@@ -31,6 +38,7 @@ export function ProductForm({ product }: ProductFormProps) {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<CreateProductInput>({
     resolver: zodResolver(createProductSchema),
@@ -42,7 +50,9 @@ export function ProductForm({ product }: ProductFormProps) {
           price: product.price,
           image: product.image,
         }
-      : undefined,
+      : {
+          code: generateProductCode(),
+        },
   });
 
   const onSubmit = (data: CreateProductInput) => {
@@ -66,12 +76,24 @@ export function ProductForm({ product }: ProductFormProps) {
         {/* Code */}
         <div className="space-y-2">
           <Label htmlFor="code" className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Code</Label>
-          <Input
-            id="code"
-            placeholder="e.g. WDG-001"
-            className="rounded-none border-border"
-            {...register("code")}
-          />
+          <div className="flex items-center gap-2">
+            <Input
+              id="code"
+              placeholder="e.g. PRD-8A3F2K"
+              className="rounded-none border-border"
+              {...register("code")}
+            />
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              className="rounded-none gap-1.5 shrink-0"
+              onClick={() => setValue("code", generateProductCode(), { shouldValidate: true })}
+            >
+              <RefreshCw className="size-3.5" />
+              Generate
+            </Button>
+          </div>
           {errors.code && (
             <p className="text-xs text-destructive">{errors.code.message}</p>
           )}
