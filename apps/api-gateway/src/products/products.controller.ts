@@ -17,7 +17,7 @@ import { CreateProductDto } from '../shared/create-product.dto';
 import { UpdateProductDto } from '../shared/update-product.dto';
 
 interface ProductsGrpcService {
-  findAll(data: {}): Observable<{ products: any[] }>;
+  findAll(data: Record<string, never>): Observable<{ products: unknown[] }>;
   findOne(data: { id: number }): Observable<any>;
   createProduct(data: any): Observable<any>;
   updateProduct(data: any): Observable<any>;
@@ -38,7 +38,7 @@ export class ProductsController implements OnModuleInit {
 
   @Get()
   @ApiOperation({ summary: 'Get all products' })
-  findAll(): Observable<any[]> {
+  findAll(): Observable<unknown[]> {
     return this.productsGrpcService
       .findAll({})
       .pipe(map((response) => response.products || []));

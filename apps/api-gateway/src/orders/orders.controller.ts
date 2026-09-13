@@ -14,7 +14,7 @@ import { CreateOrderDto } from '../shared/create-order.dto';
 import { Observable } from 'rxjs';
 
 interface OrdersGrpcService {
-  findAll(data: {}): Observable<{ orders: any[] }>;
+  findAll(data: Record<string, never>): Observable<{ orders: unknown[] }>;
   findOne(data: { id: number }): Observable<any>;
   createOrder(data: any): Observable<any>;
 }
@@ -33,7 +33,7 @@ export class OrdersController implements OnModuleInit {
 
   @Get()
   @ApiOperation({ summary: 'Get all orders' })
-  findAll(): Observable<any[]> {
+  findAll(): Observable<unknown[]> {
     return this.ordersGrpcService
       .findAll({})
       .pipe(map((response) => response.orders || []));
