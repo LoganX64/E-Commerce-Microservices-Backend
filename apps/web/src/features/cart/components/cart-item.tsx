@@ -13,7 +13,7 @@ export function CartItem({ item }: { item: CartItemType }) {
       {/* Thumbnail */}
       <div className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-muted">
         <Image
-          src={`https://picsum.photos/seed/${item.id}`}
+          src={`https://picsum.photos/seed/${item.id}/200/200`}
           alt={item.name}
           fill
           sizes="80px"
