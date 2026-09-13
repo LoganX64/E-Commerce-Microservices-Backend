@@ -25,6 +25,7 @@ export function ProductDetailView({ productId }: { productId: number }) {
       id: product.id,
       name: product.name,
       rate: product.price,
+      image: product.image,
       qty: quantity,
     });
     setQuantity(1);

@@ -70,6 +70,7 @@ export function ProductCard({ product }: { product: Product }) {
         id: product.id,
         name: product.name,
         rate: product.price,
+        image: product.image,
       });
     },
     [addItem, product],

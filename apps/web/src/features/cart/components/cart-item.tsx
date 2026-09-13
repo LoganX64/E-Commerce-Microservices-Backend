@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Minus, Plus, Trash2 } from "lucide-react";
+import { Minus, Package, Plus, Trash2 } from "lucide-react";
 import { useCart } from "@/features/cart/hooks/use-cart";
 import type { CartItem as CartItemType } from "@/features/cart/types";
 
@@ -11,15 +11,21 @@ export function CartItem({ item }: { item: CartItemType }) {
   return (
     <div className="flex gap-4 rounded-xl border border-border bg-card p-4">
       {/* Thumbnail */}
-      <div className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-muted">
-        <Image
-          src={`https://picsum.photos/seed/${item.id}/200/200`}
-          alt={item.name}
-          fill
-          sizes="80px"
-          className="object-cover"
-        />
-      </div>
+      {item.image ? (
+        <div className="relative size-20 shrink-0 overflow-hidden rounded-lg bg-muted">
+          <Image
+            src={item.image}
+            alt={item.name}
+            fill
+            sizes="80px"
+            className="object-cover"
+          />
+        </div>
+      ) : (
+        <div className="flex size-20 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
+          <Package className="size-8 stroke-[1.5]" />
+        </div>
+      )}
 
       {/* Info */}
       <div className="flex min-w-0 flex-1 flex-col justify-between">
