@@ -7,16 +7,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  // console.log('API_KEY:', configService.get('API_KEY'));
-  // const frontendUrl = configService.get<string>('FRONTEND_URL');
+  const frontendUrl = configService.get<string>('FRONTEND_SERVICE_URL');
   app.enableCors({
-    // origin: frontendUrl, // your frontend URL
-    // methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    // credentials: true,
+    origin: frontendUrl,
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    credentials: true,
   });
-
-  const globalPrefix = 'api-docs';
-  app.setGlobalPrefix(globalPrefix);
   // swagger setup
   const config = new DocumentBuilder()
     .setTitle('API Gateway')
@@ -45,7 +41,7 @@ async function bootstrap() {
     ]),
   );
 
-  SwaggerModule.setup(globalPrefix, app, document);
+  SwaggerModule.setup('api-docs', app, document);
 
   await app.listen(configService.get('PORT') || 3000);
 }

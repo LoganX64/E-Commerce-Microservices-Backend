@@ -21,7 +21,7 @@ export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(ApiKeyMiddleware)
-      // .exclude('/', '/api', '/api/*') // Exclude Swagger routes
-      .forRoutes('*'); // Apply to all routes
+      .exclude('api-docs', 'api-docs/(.*)')
+      .forRoutes('*');
   }
 }

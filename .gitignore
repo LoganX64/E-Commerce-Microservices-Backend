@@ -15,3 +15,6 @@ dist/
 Thumbs.db
 
 .turbo/
+
+.agents/
+skills-lock.json
