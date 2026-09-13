@@ -1,18 +1,20 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import Link from "next/link";
 import { ShoppingCartIcon } from "lucide-react";
 import { useCart } from "@/features/cart/hooks/use-cart";
 import { Badge } from "@/components/ui/badge";
 
+const emptySubscribe = () => () => {};
+
 export function CartButton() {
   const count = useCart().totalItems();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    emptySubscribe,
+    () => true,
+    () => false,
+  );
 
   return (
     <Link

@@ -7,7 +7,6 @@ import {
 import { getProducts } from "@/features/products/api";
 import { getOrders } from "@/features/orders/api";
 import { SectionCards as DashboardStats } from "@/components/section-cards";
-import { Button } from "@/components/ui/button";
 
 export default async function DashboardPage() {
   const queryClient = new QueryClient();
