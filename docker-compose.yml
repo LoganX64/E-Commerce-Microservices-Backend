@@ -52,12 +52,13 @@ services:
     build: ./apps/api-gateway
     restart: always
     ports:
-      - "3000:3000"
+      - "3001:3001"
     environment:
       PRODUCTS_GRPC_URL: product-service:50051
       ORDERS_GRPC_URL: order-service:50052
-      FRONTEND_SERVICE_URL: http://localhost:5173
+      FRONTEND_SERVICE_URL: http://localhost:3000
       API_KEY: supersecret123
+      PORT: 3001
     depends_on:
       - product-service
       - order-service
