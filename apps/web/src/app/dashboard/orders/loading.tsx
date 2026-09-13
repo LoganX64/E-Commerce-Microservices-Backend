@@ -1,10 +1,19 @@
-import { TableSkeleton } from "@/components/ui/skeleton";
-
 export default function DashboardOrdersLoading() {
   return (
     <div className="space-y-6">
       <div className="h-8 w-24 animate-pulse rounded-lg bg-muted" />
-      <TableSkeleton columns={5} />
+      <div className="rounded-lg border border-border">
+        <div className="h-10 border-b border-border bg-muted/50" />
+        {Array.from({ length: 5 }).map((_, i) => (
+          <div key={i} className="flex h-12 items-center gap-4 border-b border-border px-4 last:border-0">
+            <div className="h-4 flex-1 animate-pulse rounded bg-muted" />
+            <div className="h-4 w-20 animate-pulse rounded bg-muted" />
+            <div className="h-4 w-16 animate-pulse rounded bg-muted" />
+            <div className="h-4 w-24 animate-pulse rounded bg-muted" />
+            <div className="h-4 w-20 animate-pulse rounded bg-muted" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
