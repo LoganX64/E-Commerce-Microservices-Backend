@@ -9,8 +9,10 @@
     "turbo": "^2.5.8"
   },
   "scripts": {
-    "dev": "turbo run start:dev --parallel",
+    "dev": "turbo run start:dev dev --parallel",
+    "dev:web": "turbo run dev --filter=web",
     "build": "turbo run build",
+    "build:web": "turbo run build --filter=web",
     "lint": "turbo run lint",
     "test": "turbo run test --filter=!**/test/app.e2e-spec.ts"
   }
