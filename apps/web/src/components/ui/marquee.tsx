@@ -27,7 +27,7 @@ export function Marquee({
   return (
     <div
       className={cn(
-        "relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,white_20%,white_80%,transparent)]",
+        "relative z-20 max-w-7xl overflow-hidden [mask-image:linear-gradient(to_right,transparent,var(--mask-color)_20%,var(--mask-color)_80%,transparent)]",
         className,
       )}
     >
@@ -44,18 +44,18 @@ export function Marquee({
         {[...items, ...items].map((item, idx) => (
           <div
             key={idx}
-            className="relative w-[350px] max-w-full shrink-0 rounded-2xl border border-b-0 border-zinc-200 bg-[linear-gradient(180deg,#fafafa,#f5f5f5)] px-8 py-6 md:w-[450px] dark:border-zinc-700 dark:bg-[linear-gradient(180deg,#27272a,#18181b)]"
+            className="relative w-[350px] max-w-full shrink-0 rounded-2xl border border-b-0 border-border bg-[linear-gradient(180deg,var(--marquee-card-start),var(--marquee-card-end))] px-8 py-6 md:w-[450px]"
           >
             <blockquote>
-              <span className="relative z-20 text-sm leading-[1.6] font-normal text-neutral-800 dark:text-gray-100">
+              <span className="relative z-20 text-sm leading-[1.6] font-normal text-foreground">
                 {item.quote}
               </span>
               <div className="relative z-20 mt-6 flex flex-row items-center">
                 <span className="flex flex-col gap-1">
-                  <span className="text-sm leading-[1.6] font-normal text-neutral-500 dark:text-gray-400">
+                  <span className="text-sm leading-[1.6] font-normal text-muted-foreground">
                     {item.name}
                   </span>
-                  <span className="text-sm leading-[1.6] font-normal text-neutral-500 dark:text-gray-400">
+                  <span className="text-sm leading-[1.6] font-normal text-muted-foreground">
                     {item.title}
                   </span>
                 </span>

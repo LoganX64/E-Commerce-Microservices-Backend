@@ -89,8 +89,8 @@ export function ProductCard({ product }: { product: Product }) {
         )}
         animate={{
           boxShadow: hovered
-            ? "0 0 30px rgba(200,162,255,0.08), 0 0 60px rgba(200,162,255,0.04)"
-            : "0 0 0px rgba(200,162,255,0)",
+            ? "0 0 30px var(--glow-color) / 8%, 0 0 60px var(--glow-color) / 4%"
+            : "0 0 0px var(--glow-color) / 0%",
         }}
         transition={{ duration: 0.3 }}
       >
