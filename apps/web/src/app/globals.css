@@ -129,16 +129,11 @@
   }
 }
 
-@keyframes scroll {
+@keyframes marquee-scroll {
   from {
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(-100% - 1rem));
+    transform: translateX(calc(-50% - 0.5rem));
   }
-}
-
-.animate-scroll {
-  animation: scroll var(--animation-duration, 40s) linear infinite;
-  animation-direction: var(--animation-direction, forwards);
 }

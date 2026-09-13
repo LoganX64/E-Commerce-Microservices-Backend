@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { PinContainer } from "@/components/ui/3d-pin";
+import Link from "next/link";
+import { Card } from "@/components/ui/card";
 import type { Product } from "@/features/products/types";
 
 export function FeaturedProducts({ products }: { products: Product[] }) {
@@ -17,30 +18,22 @@ export function FeaturedProducts({ products }: { products: Product[] }) {
           </p>
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-16">
+        <div className="flex flex-wrap items-center justify-center gap-8">
           {products.map((product) => (
-            <div
-              key={product.id}
-              className="flex h-[20rem] w-[20rem] items-center justify-center"
-            >
-              <PinContainer
-                title={product.name}
-                href={`/products/${product.id}`}
-              >
-                <div className="flex h-48 w-48 flex-col items-center justify-center gap-3">
-                  <Image
-                    src={product.image}
-                    alt={product.name}
-                    width={140}
-                    height={140}
-                    className="h-[10rem] w-[10rem] rounded-lg object-cover"
-                  />
-                  <p className="text-sm font-medium text-white">
-                    ${product.price.toFixed(2)}
-                  </p>
-                </div>
-              </PinContainer>
-            </div>
+            <Link key={product.id} href={`/products/${product.id}`}>
+              <Card className="group relative flex h-72 w-64 flex-col items-center justify-center gap-3 border-white/[0.08] bg-[#0a0a0a] p-6 transition-all duration-300 hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.4)] hover:border-white/[0.15]">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  width={140}
+                  height={140}
+                  className="h-[10rem] w-[10rem] rounded-lg object-cover"
+                />
+                <p className="text-sm font-medium text-white">
+                  ${product.price.toFixed(2)}
+                </p>
+              </Card>
+            </Link>
           ))}
         </div>
       </div>

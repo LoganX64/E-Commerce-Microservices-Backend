@@ -1,6 +1,6 @@
 "use client";
 
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import { Marquee } from "@/components/ui/marquee";
 
 const firstRow = [
   {
@@ -55,16 +55,8 @@ export function TestimonialsSection() {
         </div>
 
         <div className="flex flex-col gap-6">
-          <InfiniteMovingCards
-            items={firstRow}
-            direction="left"
-            speed="normal"
-          />
-          <InfiniteMovingCards
-            items={secondRow}
-            direction="right"
-            speed="normal"
-          />
+          <Marquee items={firstRow} direction="left" speed="normal" />
+          <Marquee items={secondRow} direction="right" speed="normal" />
         </div>
       </div>
     </section>

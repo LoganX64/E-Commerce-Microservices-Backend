@@ -20,8 +20,5 @@
     "hooks": "@/hooks"
   },
   "menuColor": "default",
-  "menuAccent": "subtle",
-  "registries": {
-    "@aceternity": "https://ui.aceternity.com/registry/{name}.json"
-  }
+  "menuAccent": "subtle"
 }
