@@ -14,12 +14,12 @@ function StatCard({
   icon: React.ComponentType<{ className?: string }>;
 }) {
   return (
-    <div className="rounded-xl border border-white/[0.08] bg-[#0a0a0a] p-5">
+    <div className="rounded-xl border border-border bg-card p-5">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-neutral-400">{label}</span>
-        <Icon className="size-4 text-neutral-500" />
+        <span className="text-sm text-muted-foreground">{label}</span>
+        <Icon className="size-4 text-muted-foreground" />
       </div>
-      <p className="mt-2 text-2xl font-bold text-white">{value}</p>
+      <p className="mt-2 text-2xl font-bold text-card-foreground">{value}</p>
     </div>
   );
 }

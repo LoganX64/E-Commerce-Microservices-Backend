@@ -33,13 +33,13 @@ export function ProductsView() {
           {Array.from({ length: 8 }).map((_, i) => (
             <div
               key={i}
-              className="animate-pulse rounded-xl border border-white/[0.08] bg-[#0a0a0a]"
+              className="animate-pulse rounded-xl border border-border bg-card"
             >
-              <div className="aspect-square bg-neutral-800 rounded-t-xl" />
+              <div className="aspect-square bg-muted rounded-t-xl" />
               <div className="p-4 space-y-3">
-                <div className="h-3 w-16 rounded bg-neutral-800" />
-                <div className="h-4 w-3/4 rounded bg-neutral-800" />
-                <div className="h-5 w-1/3 rounded bg-neutral-800" />
+                <div className="h-3 w-16 rounded bg-muted" />
+                <div className="h-4 w-3/4 rounded bg-muted" />
+                <div className="h-5 w-1/3 rounded bg-muted" />
               </div>
             </div>
           ))}

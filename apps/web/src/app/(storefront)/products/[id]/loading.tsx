@@ -2,7 +2,7 @@ export default function ProductDetailLoading() {
   return (
     <div className="grid gap-8 lg:grid-cols-2">
       {/* Image skeleton */}
-      <div className="aspect-square animate-pulse rounded-xl border border-white/[0.08] bg-[#0a0a0a]" />
+      <div className="aspect-square animate-pulse rounded-xl border border-border bg-card" />
 
       {/* Info skeleton */}
       <div className="space-y-4">

@@ -18,10 +18,10 @@ export default async function ProductsPage() {
     <HydrationBoundary state={dehydrate(queryClient)}>
       <section className="mx-auto max-w-6xl px-4 py-10 lg:px-6">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold tracking-tight text-neutral-900 dark:text-white">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
             Products
           </h1>
-          <p className="mt-1 text-neutral-500 dark:text-neutral-400">
+          <p className="mt-1 text-muted-foreground">
             Browse our curated collection
           </p>
         </div>

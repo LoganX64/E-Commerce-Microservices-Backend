@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   HydrationBoundary,
   QueryClient,
@@ -17,10 +18,13 @@ export default async function DashboardPage() {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <h1 className="text-2xl font-bold tracking-tight text-white">
+      <Link href="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+        ← Back to home
+      </Link>
+      <h1 className="mt-4 text-2xl font-bold tracking-tight text-foreground">
         Dashboard
       </h1>
-      <p className="mt-1 text-sm text-neutral-400">
+      <p className="mt-1 text-sm text-muted-foreground">
         Overview of your store
       </p>
       <div className="mt-6">

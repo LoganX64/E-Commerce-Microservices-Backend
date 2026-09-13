@@ -5,10 +5,10 @@ export function ProductGrid({ products }: { products: Product[] }) {
   if (products.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
-        <p className="text-lg font-medium text-neutral-400">
+        <p className="text-lg font-medium text-muted-foreground">
           No products match your filters.
         </p>
-        <p className="mt-1 text-sm text-neutral-500">
+        <p className="mt-1 text-sm text-muted-foreground">
           Try adjusting your search or price range.
         </p>
       </div>

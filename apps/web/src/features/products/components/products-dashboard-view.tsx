@@ -12,7 +12,7 @@ export function ProductsDashboardView() {
         {Array.from({ length: 5 }).map((_, i) => (
           <div
             key={i}
-            className="h-12 animate-pulse rounded-xl border border-white/[0.08] bg-[#0a0a0a]"
+            className="h-12 animate-pulse rounded-xl border border-border bg-card"
           />
         ))}
       </div>
@@ -21,11 +21,11 @@ export function ProductsDashboardView() {
 
   if (products.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center rounded-xl border border-white/[0.08] bg-[#0a0a0a] py-16 text-center">
-        <p className="text-lg font-medium text-neutral-400">
+      <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-16 text-center">
+        <p className="text-lg font-medium text-muted-foreground">
           No products yet.
         </p>
-        <p className="mt-1 text-sm text-neutral-500">
+        <p className="mt-1 text-sm text-muted-foreground">
           Add your first product to get started.
         </p>
       </div>

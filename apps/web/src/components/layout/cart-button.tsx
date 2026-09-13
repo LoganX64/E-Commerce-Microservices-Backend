@@ -18,7 +18,7 @@ export function CartButton() {
         <Badge
           variant="default"
           className="absolute -right-1 -top-1 size-4 justify-center rounded-full p-0 text-[10px] font-semibold"
-          style={{ backgroundColor: "#DC6B2F", color: "#fff" }}
+          style={{ backgroundColor: "var(--primary)", color: "var(--primary-foreground)" }}
         >
           {count}
         </Badge>

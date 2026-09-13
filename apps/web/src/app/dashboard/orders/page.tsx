@@ -17,7 +17,7 @@ export default async function DashboardOrdersPage() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight text-white">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Orders
         </h1>
       </div>

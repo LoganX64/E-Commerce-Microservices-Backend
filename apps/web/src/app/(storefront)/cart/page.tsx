@@ -12,16 +12,17 @@ export default function CartPage() {
   if (items.length === 0) {
     return (
       <section className="mx-auto max-w-6xl px-4 py-24 text-center">
-        <h1 className="text-2xl font-bold tracking-tight text-white">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Your cart is empty
         </h1>
-        <p className="mt-2 text-neutral-400">
+        <p className="mt-2 text-muted-foreground">
           Find something you like and add it to your cart.
         </p>
         <Button
           render={<Link href="/products" />}
+          nativeButton={false}
           size="lg"
-          className="mt-6 rounded-lg bg-white text-neutral-950 font-semibold hover:bg-[#C8A2FF] hover:text-white transition-colors"
+          className="mt-6 rounded-lg bg-primary text-primary-foreground font-semibold transition-colors hover:bg-primary/80"
         >
           Browse products
         </Button>
@@ -32,10 +33,10 @@ export default function CartPage() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-10 lg:px-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight text-white">Cart</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Cart</h1>
         <button
           onClick={clearCart}
-          className="text-xs text-neutral-500 hover:text-red-400 transition-colors"
+          className="text-xs text-muted-foreground hover:text-destructive transition-colors"
         >
           Clear cart
         </button>

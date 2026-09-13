@@ -19,12 +19,13 @@ export default async function DashboardProductsPage() {
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold tracking-tight text-white">
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
           Products
         </h1>
         <Button
           render={<Link href="/dashboard/products/new" />}
-          className="rounded-lg bg-white text-neutral-950 font-semibold hover:bg-[#C8A2FF] hover:text-white transition-colors"
+          nativeButton={false}
+          className="rounded-lg bg-primary text-primary-foreground font-semibold transition-colors hover:bg-primary/80"
         >
           Add product
         </Button>

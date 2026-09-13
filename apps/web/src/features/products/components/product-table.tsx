@@ -36,37 +36,37 @@ export function ProductTable({ products }: { products: Product[] }) {
 
   return (
     <>
-      <div className="rounded-xl border border-white/[0.08] bg-[#0a0a0a]">
+      <div className="rounded-xl border border-border bg-card">
         <Table>
           <TableHeader>
-            <TableRow className="border-white/[0.08] hover:bg-transparent">
-              <TableHead className="text-neutral-400">Name</TableHead>
-              <TableHead className="text-neutral-400">Code</TableHead>
-              <TableHead className="text-neutral-400">Price</TableHead>
-              <TableHead className="w-[100px] text-neutral-400">
+            <TableRow className="border-border hover:bg-transparent">
+              <TableHead className="text-muted-foreground">Name</TableHead>
+              <TableHead className="text-muted-foreground">Code</TableHead>
+              <TableHead className="text-muted-foreground">Price</TableHead>
+              <TableHead className="w-[100px] text-muted-foreground">
                 Actions
               </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {products.map((product) => (
-              <TableRow key={product.id} className="border-white/[0.08]">
-                <TableCell className="font-medium text-white">
+              <TableRow key={product.id} className="border-border">
+                <TableCell className="font-medium text-card-foreground">
                   {product.name}
                 </TableCell>
-                <TableCell className="font-mono text-xs text-neutral-400">
+                <TableCell className="font-mono text-xs text-muted-foreground">
                   {product.code}
                 </TableCell>
-                <TableCell className="text-white">
+                <TableCell className="text-card-foreground">
                   ${product.price.toFixed(2)}
                 </TableCell>
                 <TableCell>
                   <div className="flex items-center gap-1">
                     <Button
                       render={<Link href={`/dashboard/products/${product.id}`} />}
+                      nativeButton={false}
                       variant="ghost"
                       size="icon-sm"
-                      className="text-neutral-400 hover:text-white"
                     >
                       <PencilIcon className="size-3.5" />
                       <span className="sr-only">Edit</span>
@@ -74,7 +74,7 @@ export function ProductTable({ products }: { products: Product[] }) {
                     <Button
                       variant="ghost"
                       size="icon-sm"
-                      className="text-neutral-400 hover:text-red-400"
+                      className="text-destructive hover:text-destructive"
                       onClick={() => setDeleteTarget(product)}
                     >
                       <TrashIcon className="size-3.5" />
@@ -90,10 +90,10 @@ export function ProductTable({ products }: { products: Product[] }) {
 
       {/* Delete confirmation */}
       <Dialog open={!!deleteTarget} onOpenChange={(open) => !open && setDeleteTarget(null)}>
-        <DialogContent className="bg-[#1a1a1a] border-white/[0.08] text-white">
+        <DialogContent>
           <DialogHeader>
             <DialogTitle>Delete product</DialogTitle>
-            <DialogDescription className="text-neutral-400">
+            <DialogDescription>
               Are you sure you want to delete &ldquo;{deleteTarget?.name}&rdquo;?
               This cannot be undone.
             </DialogDescription>
@@ -102,7 +102,6 @@ export function ProductTable({ products }: { products: Product[] }) {
             <Button
               variant="outline"
               onClick={() => setDeleteTarget(null)}
-              className="border-white/[0.08] text-white"
             >
               Cancel
             </Button>

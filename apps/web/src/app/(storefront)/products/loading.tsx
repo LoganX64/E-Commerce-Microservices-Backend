@@ -16,7 +16,7 @@ export default function ProductsLoading() {
         {Array.from({ length: 8 }).map((_, i) => (
           <div
             key={i}
-            className="h-72 animate-pulse rounded-xl border border-white/[0.08] bg-[#0a0a0a]"
+            className="h-72 animate-pulse rounded-xl border border-border bg-card"
           />
         ))}
       </div>

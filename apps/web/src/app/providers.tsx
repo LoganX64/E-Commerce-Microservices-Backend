@@ -2,8 +2,9 @@
 
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { getQueryClient } from "./get-query-client";
+import { useCartStore } from "@/features/cart/store";
 
 const ReactQueryDevtoolsProduction = lazy(() =>
   import("@tanstack/react-query-devtools/production").then((d) => ({
@@ -13,6 +14,10 @@ const ReactQueryDevtoolsProduction = lazy(() =>
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const queryClient = getQueryClient();
+
+  useEffect(() => {
+    useCartStore.persist.rehydrate();
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

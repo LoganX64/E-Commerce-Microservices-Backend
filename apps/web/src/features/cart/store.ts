@@ -52,6 +52,6 @@ export const useCartStore = create<CartState>()(
       totalPrice: () =>
         get().items.reduce((sum, i) => sum + i.rate * i.qty, 0),
     }),
-    { name: "cart-storage" },
+    { name: "cart-storage", skipHydration: true },
   ),
 );

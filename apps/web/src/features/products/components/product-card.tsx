@@ -84,8 +84,8 @@ export function ProductCard({ product }: { product: Product }) {
     >
       <motion.div
         className={cn(
-          "relative overflow-hidden rounded-xl border border-white/[0.08] bg-[#0a0a0a] transition-colors duration-300",
-          "hover:border-[#C8A2FF]/30",
+          "relative overflow-hidden rounded-xl border border-border bg-card transition-colors duration-300",
+          "hover:border-primary/30",
         )}
         animate={{
           boxShadow: hovered
@@ -95,7 +95,7 @@ export function ProductCard({ product }: { product: Product }) {
         transition={{ duration: 0.3 }}
       >
         {/* Image */}
-        <div className="relative aspect-square overflow-hidden bg-neutral-900">
+        <div className="relative aspect-square overflow-hidden bg-muted">
           <Image
             src={product.image}
             alt={product.name}
@@ -103,25 +103,25 @@ export function ProductCard({ product }: { product: Product }) {
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
             className="object-cover transition-transform duration-500 group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-60" />
+          <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
         </div>
 
         {/* Content */}
         <div className="p-4">
-          <p className="mb-1 font-mono text-[11px] tracking-wider text-[#C8A2FF]/70">
+          <p className="mb-1 font-mono text-[11px] tracking-wider text-primary/70">
             {scrambledCode}
           </p>
-          <h3 className="text-sm font-semibold text-white mb-1 line-clamp-1">
+          <h3 className="text-sm font-semibold text-card-foreground mb-1 line-clamp-1">
             {product.name}
           </h3>
-          <p className="text-lg font-bold text-white">
+          <p className="text-lg font-bold text-card-foreground">
             ${product.price.toFixed(2)}
           </p>
 
           <Button
             variant="outline"
             size="sm"
-            className="mt-3 w-full border-white/[0.08] bg-white/[0.03] text-white hover:bg-[#C8A2FF]/10 hover:border-[#C8A2FF]/30 hover:text-[#C8A2FF]"
+            className="mt-3 w-full text-foreground hover:bg-primary/10 hover:border-primary/30 hover:text-primary"
             onClick={handleAddToCart}
           >
             Add to cart

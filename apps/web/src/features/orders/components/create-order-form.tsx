@@ -8,7 +8,6 @@ import { createOrderSchema, type CreateOrderInput } from "@/features/orders/sche
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { MinusIcon, PlusIcon, XIcon, SearchIcon } from "lucide-react";
 import type { Product } from "@/features/products/types";
 import type { OrderProduct } from "@/features/orders/types";
@@ -97,67 +96,61 @@ export function CreateOrderForm() {
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
       {/* Customer Information */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#0a0a0a] p-6">
-        <h2 className="text-sm font-medium text-neutral-400">
+      <div className="rounded-xl border border-border bg-card p-6">
+        <h2 className="text-sm font-medium text-muted-foreground">
           Customer information
         </h2>
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="customerName" className="text-neutral-300">
-              Name
-            </Label>
+            <Label htmlFor="customerName">Name</Label>
             <Input
               id="customerName"
               placeholder="Customer name"
               value={customerName}
               onChange={(e) => setCustomerName(e.target.value)}
-              className="border-white/[0.08] bg-[#0a0a0a] text-white placeholder:text-neutral-500 focus-visible:border-[#C8A2FF]/40 focus-visible:ring-[#C8A2FF]/20"
             />
             {errors.customerName && (
-              <p className="text-xs text-red-400">{errors.customerName}</p>
+              <p className="text-xs text-destructive">{errors.customerName}</p>
             )}
           </div>
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="customerPhone" className="text-neutral-300">
-              Phone
-            </Label>
+            <Label htmlFor="customerPhone">Phone</Label>
             <Input
               id="customerPhone"
               placeholder="Phone number"
               value={customerPhone}
               onChange={(e) => setCustomerPhone(e.target.value)}
-              className="border-white/[0.08] bg-[#0a0a0a] text-white placeholder:text-neutral-500 focus-visible:border-[#C8A2FF]/40 focus-visible:ring-[#C8A2FF]/20"
             />
             {errors.customerPhone && (
-              <p className="text-xs text-red-400">{errors.customerPhone}</p>
+              <p className="text-xs text-destructive">{errors.customerPhone}</p>
             )}
           </div>
         </div>
       </div>
 
       {/* Product Selection */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#0a0a0a] p-6">
-        <h2 className="text-sm font-medium text-neutral-400">Products</h2>
+      <div className="rounded-xl border border-border bg-card p-6">
+        <h2 className="text-sm font-medium text-muted-foreground">Products</h2>
 
         <div className="relative mt-4">
-          <SearchIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-neutral-500" />
+          <SearchIcon className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             placeholder="Search products by name or code..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="border-white/[0.08] bg-[#0a0a0a] pl-9 text-white placeholder:text-neutral-500 focus-visible:border-[#C8A2FF]/40 focus-visible:ring-[#C8A2FF]/20"
+            className="pl-9"
           />
           {searchQuery && availableProducts.length > 0 && (
-            <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-white/[0.08] bg-[#1a1a1a]">
+            <div className="absolute z-10 mt-1 max-h-60 w-full overflow-auto rounded-lg border border-border bg-popover">
               {availableProducts.map((product) => (
                 <button
                   key={product.id}
                   type="button"
                   onClick={() => addProduct(product)}
-                  className="flex w-full items-center justify-between px-4 py-2.5 text-left text-sm hover:bg-white/[0.05]"
+                  className="flex w-full items-center justify-between px-4 py-2.5 text-left text-sm hover:bg-accent"
                 >
-                  <span className="text-white">{product.name}</span>
-                  <span className="text-neutral-400">
+                  <span className="text-popover-foreground">{product.name}</span>
+                  <span className="text-muted-foreground">
                     ${product.price.toFixed(2)}
                   </span>
                 </button>
@@ -167,7 +160,7 @@ export function CreateOrderForm() {
         </div>
 
         {errors.products && (
-          <p className="mt-2 text-xs text-red-400">{errors.products}</p>
+          <p className="mt-2 text-xs text-destructive">{errors.products}</p>
         )}
 
         {selectedProducts.length > 0 && (
@@ -175,11 +168,11 @@ export function CreateOrderForm() {
             {selectedProducts.map((product) => (
               <div
                 key={product.id}
-                className="flex items-center justify-between rounded-lg border border-white/[0.08] p-4"
+                className="flex items-center justify-between rounded-lg border border-border p-4"
               >
                 <div className="flex-1">
-                  <p className="font-medium text-white">{product.name}</p>
-                  <p className="text-sm text-neutral-400">
+                  <p className="font-medium text-card-foreground">{product.name}</p>
+                  <p className="text-sm text-muted-foreground">
                     ${product.rate.toFixed(2)} each
                   </p>
                 </div>
@@ -189,11 +182,10 @@ export function CreateOrderForm() {
                     variant="outline"
                     size="icon-sm"
                     onClick={() => updateQuantity(product.id, -1)}
-                    className="border-white/[0.08] text-white"
                   >
                     <MinusIcon className="size-3" />
                   </Button>
-                  <span className="w-8 text-center text-sm font-medium text-white">
+                  <span className="w-8 text-center text-sm font-medium text-card-foreground">
                     {product.qty}
                   </span>
                   <Button
@@ -201,7 +193,6 @@ export function CreateOrderForm() {
                     variant="outline"
                     size="icon-sm"
                     onClick={() => updateQuantity(product.id, 1)}
-                    className="border-white/[0.08] text-white"
                   >
                     <PlusIcon className="size-3" />
                   </Button>
@@ -210,7 +201,7 @@ export function CreateOrderForm() {
                     variant="ghost"
                     size="icon-sm"
                     onClick={() => removeProduct(product.id)}
-                    className="ml-2 text-neutral-400 hover:text-red-400"
+                    className="ml-2 text-muted-foreground hover:text-destructive"
                   >
                     <XIcon className="size-3.5" />
                   </Button>
@@ -221,20 +212,20 @@ export function CreateOrderForm() {
         )}
 
         {selectedProducts.length === 0 && !searchQuery && (
-          <p className="mt-4 text-sm text-neutral-500">
+          <p className="mt-4 text-sm text-muted-foreground">
             Search and select products to add to this order.
           </p>
         )}
       </div>
 
       {/* Order Summary */}
-      <div className="rounded-xl border border-white/[0.08] bg-[#0a0a0a] p-6">
-        <h2 className="text-sm font-medium text-neutral-400">Order summary</h2>
+      <div className="rounded-xl border border-border bg-card p-6">
+        <h2 className="text-sm font-medium text-muted-foreground">Order summary</h2>
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-neutral-400">
+          <span className="text-muted-foreground">
             {selectedProducts.length} product{selectedProducts.length !== 1 ? "s" : ""}
           </span>
-          <span className="text-xl font-bold text-white">
+          <span className="text-xl font-bold text-card-foreground">
             ${totalAmount.toFixed(2)}
           </span>
         </div>
@@ -245,7 +236,7 @@ export function CreateOrderForm() {
         <Button
           type="submit"
           disabled={createOrder.isPending}
-          className="rounded-lg bg-white text-neutral-950 font-semibold hover:bg-[#C8A2FF] hover:text-white transition-colors"
+          className="rounded-lg bg-primary text-primary-foreground font-semibold transition-colors hover:bg-primary/80"
         >
           {createOrder.isPending ? "Creating..." : "Create order"}
         </Button>
@@ -253,7 +244,6 @@ export function CreateOrderForm() {
           type="button"
           variant="outline"
           onClick={() => router.push("/dashboard/orders")}
-          className="border-white/[0.08] text-white"
         >
           Cancel
         </Button>
