@@ -4,6 +4,9 @@ import { GeistMono } from "geist/font/mono";
 import { Providers } from "./providers";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { Inter } from "next/font/google";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: "VoltGrid - Electronics Goods Store",
@@ -14,7 +17,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", GeistSans.variable, GeistMono.variable, "font-sans")}
+      className={cn("h-full", "antialiased", GeistSans.variable, GeistMono.variable, "font-sans", inter.variable)}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">
