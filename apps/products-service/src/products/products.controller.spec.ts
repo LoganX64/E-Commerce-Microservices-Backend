@@ -60,7 +60,9 @@ describe('ProductsController', () => {
 
     const result = await controller.updateProduct(updateDto);
 
-    expect(mockService.update).toHaveBeenCalledWith(1, { name: 'Updated Name' });
+    expect(mockService.update).toHaveBeenCalledWith(1, {
+      name: 'Updated Name',
+    });
     expect(result).toEqual(updatedProduct);
   });
 
