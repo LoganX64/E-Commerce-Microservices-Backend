@@ -66,7 +66,7 @@ export default function CheckoutPage() {
       {
         onSuccess: (order) => {
           clearCart();
-          router.push(`/dashboard/orders/${order.id}`);
+          router.push(`/orders/${order.id}`);
         },
       },
     );
