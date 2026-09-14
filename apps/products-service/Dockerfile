@@ -1,5 +1,5 @@
 # ---------- Stage 1: Dependencies ----------
-FROM node:20-alpine AS deps
+FROM node:20-bookworm-slim AS deps
 WORKDIR /app
 
 # Copy package files
@@ -7,11 +7,12 @@ COPY package*.json ./
 
 # Configure npm retry settings to prevent network timeouts on slow connections
 RUN npm config set fetch-retries 5 \
- && npm config set fetch-retry-maxtimeout 120000 \
- && npm ci
+    && npm config set fetch-retry-mintimeout 20000 \
+    && npm config set fetch-retry-maxtimeout 120000 \
+    && npm ci
 
 # ---------- Stage 2: Builder ----------
-FROM node:20-alpine AS builder
+FROM node:20-bookworm-slim AS builder
 WORKDIR /app
 
 COPY package*.json ./
@@ -22,8 +23,12 @@ COPY src ./src
 # Build NestJS project (creates dist/)
 RUN npm run build
 
+# Copy protobuf definitions required at runtime
+RUN mkdir -p dist/proto \
+    && cp -r src/proto/* dist/proto/
+
 # ---------- Stage 3: Runner ----------
-FROM node:20-alpine AS runner
+FROM node:20-bookworm-slim AS runner
 WORKDIR /app
 
 ENV NODE_ENV=production
