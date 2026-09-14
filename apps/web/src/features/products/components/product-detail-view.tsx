@@ -4,15 +4,9 @@ import { useCallback, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Minus, Plus } from "lucide-react";
-import { motion } from "motion/react";
 import { useProduct } from "@/features/products/hooks/use-products";
 import { useCart } from "@/features/cart/hooks/use-cart";
 import { Button } from "@/components/ui/button";
-import {
-  TextRevealCard,
-  TextRevealCardTitle,
-  TextRevealCardDescription,
-} from "@/components/ui/text-reveal-card";
 
 export function ProductDetailView({ productId }: { productId: number }) {
   const { data: product, isLoading, error } = useProduct(productId);
@@ -21,6 +15,7 @@ export function ProductDetailView({ productId }: { productId: number }) {
 
   const handleAddToCart = useCallback(() => {
     if (!product) return;
+
     addItem({
       id: product.id,
       name: product.name,
@@ -28,6 +23,7 @@ export function ProductDetailView({ productId }: { productId: number }) {
       image: product.image,
       qty: quantity,
     });
+
     setQuantity(1);
   }, [addItem, product, quantity]);
 
@@ -36,8 +32,10 @@ export function ProductDetailView({ productId }: { productId: number }) {
       <div className="mx-auto max-w-6xl px-4 py-10 lg:px-6">
         <div className="animate-pulse">
           <div className="mb-6 h-4 w-32 rounded bg-muted" />
+
           <div className="grid gap-10 lg:grid-cols-2">
             <div className="aspect-square rounded-xl bg-muted" />
+
             <div className="space-y-4">
               <div className="h-4 w-20 rounded bg-muted" />
               <div className="h-8 w-3/4 rounded bg-muted" />
@@ -54,18 +52,21 @@ export function ProductDetailView({ productId }: { productId: number }) {
       <div className="mx-auto max-w-6xl px-4 py-10 lg:px-6">
         <Link
           href="/products"
-          className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
         >
           <ArrowLeft className="size-4" />
           Back to products
         </Link>
+
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <p className="text-lg font-medium text-muted-foreground">
             Product not found.
           </p>
+
           <p className="mt-1 text-sm text-muted-foreground">
             This item may have been removed or the link is incorrect.
           </p>
+
           <Button
             render={<Link href="/products" />}
             nativeButton={false}
@@ -83,7 +84,7 @@ export function ProductDetailView({ productId }: { productId: number }) {
     <section className="mx-auto max-w-6xl px-4 py-10 lg:px-6">
       <Link
         href="/products"
-        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+        className="mb-6 inline-flex items-center gap-1.5 text-sm text-muted-foreground transition-colors hover:text-foreground"
       >
         <ArrowLeft className="size-4" />
         Back to products
@@ -91,29 +92,19 @@ export function ProductDetailView({ productId }: { productId: number }) {
 
       <div className="grid gap-10 lg:grid-cols-2">
         {/* Image */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="relative aspect-square overflow-hidden rounded-xl border border-border bg-card"
-        >
+        <div className="relative aspect-square overflow-hidden rounded-xl border border-border bg-card">
           <Image
             src={product.image}
             alt={product.name}
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
-            className="object-cover"
+            className="object-contain p-6"
             priority
           />
-        </motion.div>
+        </div>
 
         {/* Info */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, delay: 0.1 }}
-          className="flex flex-col"
-        >
+        <div className="flex flex-col">
           <p className="mb-2 font-mono text-[11px] tracking-wider text-primary/70">
             {product.code}
           </p>
@@ -126,39 +117,39 @@ export function ProductDetailView({ productId }: { productId: number }) {
             ${product.price.toFixed(2)}
           </p>
 
-          {/* Description reveal */}
+          {/* Description */}
           {product.description && (
-            <div className="mt-6">
-              <TextRevealCard
-                text={product.description}
-                revealText={product.description}
-                className="w-full bg-card border border-border"
-              >
-                <TextRevealCardTitle>Details</TextRevealCardTitle>
-                <TextRevealCardDescription>
-                  Hover to reveal the full description
-                </TextRevealCardDescription>
-              </TextRevealCard>
+            <div className="mt-6 rounded-xl border border-border bg-card p-5">
+              <h2 className="text-sm font-semibold text-foreground">
+                Details
+              </h2>
+
+              <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                {product.description}
+              </p>
             </div>
           )}
 
           {/* Quantity */}
           <div className="mt-8">
             <p className="mb-2 text-sm text-muted-foreground">Quantity</p>
+
             <div className="inline-flex items-center rounded-lg border border-border bg-card">
               <button
                 onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                className="flex size-9 items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                className="flex size-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
                 aria-label="Decrease quantity"
               >
                 <Minus className="size-4" />
               </button>
+
               <span className="w-12 text-center text-sm font-medium text-card-foreground">
                 {quantity}
               </span>
+
               <button
                 onClick={() => setQuantity((q) => q + 1)}
-                className="flex size-9 items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
+                className="flex size-9 items-center justify-center text-muted-foreground transition-colors hover:text-foreground"
                 aria-label="Increase quantity"
               >
                 <Plus className="size-4" />
@@ -170,12 +161,13 @@ export function ProductDetailView({ productId }: { productId: number }) {
           <Button
             onClick={handleAddToCart}
             size="lg"
-            className="mt-6 w-full rounded-lg bg-primary text-primary-foreground font-semibold transition-colors hover:bg-primary/80"
+            className="mt-6 w-full rounded-lg bg-primary font-semibold text-primary-foreground transition-colors hover:bg-primary/80"
           >
             Add to cart
           </Button>
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 }
+
