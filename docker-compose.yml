@@ -11,7 +11,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d procura_db"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d procura_db" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -56,7 +56,7 @@ services:
     environment:
       PRODUCTS_GRPC_URL: product-service:50051
       ORDERS_GRPC_URL: order-service:50052
-      FRONTEND_SERVICE_URL: http://web:3000
+      FRONTEND_ORIGIN: http://localhost:3000
       API_KEY: supersecret123
       PORT: 3001
     depends_on:
@@ -64,7 +64,9 @@ services:
       - order-service
 
   web:
-    build: ./apps/web
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
     restart: always
     ports:
       - "3000:3000"
