@@ -3,6 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -58,11 +59,21 @@ export function ProductForm({ product }: ProductFormProps) {
     if (isEditing) {
       updateProduct.mutate(
         { id: product.id, data },
-        { onSuccess: () => router.push("/dashboard/products") },
+        {
+          onSuccess: () => {
+            toast.success("Product updated");
+            router.push("/dashboard/products");
+          },
+          onError: () => toast.error("Failed to update product"),
+        },
       );
     } else {
       createProduct.mutate(data, {
-        onSuccess: () => router.push("/dashboard/products"),
+        onSuccess: () => {
+          toast.success("Product created");
+          router.push("/dashboard/products");
+        },
+        onError: () => toast.error("Failed to create product"),
       });
     }
   };

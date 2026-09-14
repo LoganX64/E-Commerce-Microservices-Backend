@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { toast } from "sonner";
 import { useCart } from "@/features/cart/hooks/use-cart";
 import { useCreateOrder } from "@/features/orders/hooks/use-order-mutations";
 import { Input } from "@/components/ui/input";
@@ -65,9 +66,11 @@ export default function CheckoutPage() {
       },
       {
         onSuccess: (order) => {
+          toast.success("Order placed successfully");
           clearCart();
           router.push(`/orders/${order.id}`);
         },
+        onError: () => toast.error("Failed to place order"),
       },
     );
   };

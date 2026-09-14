@@ -3,6 +3,7 @@
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { lazy, Suspense, useEffect } from "react";
+import { Toaster } from "sonner";
 import { getQueryClient } from "./get-query-client";
 import { useCartStore } from "@/features/cart/store";
 
@@ -22,6 +23,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
+      <Toaster richColors position="top-right" />
       <Suspense fallback={null}>
         {process.env.NODE_ENV === "production" ? (
           <ReactQueryDevtoolsProduction />
