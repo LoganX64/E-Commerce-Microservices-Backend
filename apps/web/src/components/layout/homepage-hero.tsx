@@ -2,17 +2,70 @@ import Link from "next/link";
 
 export function HomepageHero() {
   return (
-    <section className="relative flex h-screen w-full items-center justify-center overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,oklch(0.5_0.134_242.749/0.1),transparent_50%)]" />
+    <section className="relative flex h-screen w-full items-center justify-center overflow-hidden bg-[#f8fafc]">
       <div
-        className="absolute inset-0 opacity-[0.035]"
+        className="absolute inset-0 z-0"
         style={{
-          backgroundImage:
-            "repeating-linear-gradient(0deg,transparent,transparent 59px,oklch(0.5_0.134_242.749/1) 59px,oklch(0.5_0.134_242.749/1) 60px),repeating-linear-gradient(90deg,transparent,transparent 59px,oklch(0.5_0.134_242.749/1) 59px,oklch(0.5_0.134_242.749/1) 60px)",
+          backgroundImage: `
+            linear-gradient(135deg, 
+              rgba(248,250,252,1) 0%, 
+              rgba(219,234,254,0.7) 30%, 
+              rgba(165,180,252,0.5) 60%, 
+              rgba(129,140,248,0.6) 100%
+            ),
+            radial-gradient(circle at 20% 30%, rgba(255,255,255,0.6) 0%, transparent 40%),
+            radial-gradient(circle at 80% 70%, rgba(199,210,254,0.4) 0%, transparent 50%),
+            radial-gradient(circle at 40% 80%, rgba(224,231,255,0.3) 0%, transparent 60%)
+          `,
         }}
       />
-      <div className="absolute -right-32 -top-32 size-[500px] rounded-full bg-[oklch(0.78_0.14_320/0.12)] blur-[120px]" />
-      <div className="absolute -bottom-48 -left-48 size-[400px] rounded-full bg-[oklch(0.5_0.134_242.749/0.08)] blur-[100px]" />
+      <div
+        className="absolute inset-0 z-[1]"
+        style={{
+          backgroundImage: `
+            linear-gradient(to right, #e7e5e4 1px, transparent 1px),
+            linear-gradient(to bottom, #e7e5e4 1px, transparent 1px)
+          `,
+          backgroundSize: "20px 20px",
+          backgroundPosition: "0 0, 0 0",
+          maskImage: `
+            repeating-linear-gradient(
+              to right,
+              black 0px,
+              black 3px,
+              transparent 3px,
+              transparent 8px
+            ),
+            repeating-linear-gradient(
+              to bottom,
+              black 0px,
+              black 3px,
+              transparent 3px,
+              transparent 8px
+            ),
+            radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)
+          `,
+          WebkitMaskImage: `
+            repeating-linear-gradient(
+              to right,
+              black 0px,
+              black 3px,
+              transparent 3px,
+              transparent 8px
+            ),
+            repeating-linear-gradient(
+              to bottom,
+              black 0px,
+              black 3px,
+              transparent 3px,
+              transparent 8px
+            ),
+            radial-gradient(ellipse 60% 60% at 50% 50%, #000 30%, transparent 70%)
+          `,
+          maskComposite: "intersect",
+          WebkitMaskComposite: "source-in",
+        }}
+      />
       <div className="relative z-10 flex flex-col items-center gap-8 px-6 text-center">
         <h1 className="text-5xl font-bold tracking-tight text-foreground sm:text-7xl">
           VoltGrid
