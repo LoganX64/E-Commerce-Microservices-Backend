@@ -19,7 +19,7 @@ export default async function DashboardOrdersPage() {
       <div className="flex flex-col gap-8">
         <div className="flex items-center justify-between border-b border-border/50 pb-4">
           <div className="flex flex-col gap-1">
-            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
               Orders
             </h1>
             <p className="text-sm text-muted-foreground">

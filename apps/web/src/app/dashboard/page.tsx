@@ -21,7 +21,7 @@ export default async function DashboardPage() {
       <div className="flex flex-col gap-8">
         {/* Header */}
         <div className="flex flex-col gap-1">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+          <h1 className="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
             Dashboard
           </h1>
           <p className="text-sm text-muted-foreground">

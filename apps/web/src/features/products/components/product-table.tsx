@@ -36,7 +36,8 @@ export function ProductTable({ products }: { products: Product[] }) {
 
   return (
     <>
-      <div className="border border-border">
+      {/* Desktop table */}
+      <div className="hidden md:block border border-border">
         <Table>
           <TableHeader>
             <TableRow className="border-border hover:bg-transparent">
@@ -112,6 +113,61 @@ export function ProductTable({ products }: { products: Product[] }) {
             ))}
           </TableBody>
         </Table>
+      </div>
+
+      {/* Mobile cards */}
+      <div className="md:hidden flex flex-col gap-2">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            className="flex items-center gap-3 rounded-lg border border-border bg-card p-3"
+          >
+            {product.image ? (
+              <img
+                src={product.image}
+                alt={`${product.name} thumbnail`}
+                className="h-12 w-12 shrink-0 rounded object-cover border"
+              />
+            ) : (
+              <div className="h-12 w-12 shrink-0 rounded bg-muted flex items-center justify-center text-xs">
+                No Image
+              </div>
+            )}
+
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-medium text-card-foreground">
+                {product.name}
+              </p>
+              <p className="font-mono text-xs text-muted-foreground">
+                {product.code}
+              </p>
+              <p className="font-mono text-sm text-card-foreground">
+                ${product.price.toFixed(2)}
+              </p>
+            </div>
+
+            <div className="flex shrink-0 items-center gap-1">
+              <Button
+                render={<Link href={`/dashboard/products/${product.id}`} />}
+                nativeButton={false}
+                variant="ghost"
+                size="icon-sm"
+              >
+                <PencilIcon className="size-3.5" />
+                <span className="sr-only">Edit</span>
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon-sm"
+                className="text-destructive hover:text-destructive"
+                onClick={() => setDeleteTarget(product)}
+              >
+                <TrashIcon className="size-3.5" />
+                <span className="sr-only">Delete</span>
+              </Button>
+            </div>
+          </div>
+        ))}
       </div>
 
       {/* Delete confirmation */}
