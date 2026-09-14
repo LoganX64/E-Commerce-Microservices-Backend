@@ -15,6 +15,7 @@ export function ProductsView() {
     setMinPrice,
     maxPrice,
     setMaxPrice,
+    priceRange,
   } = useProductFilters(products);
 
   return (
@@ -26,6 +27,7 @@ export function ProductsView() {
         maxPrice={maxPrice}
         onMinPriceChange={setMinPrice}
         onMaxPriceChange={setMaxPrice}
+        priceRange={priceRange}
       />
 
       {isLoading ? (
