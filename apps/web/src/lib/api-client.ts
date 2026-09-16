@@ -1,14 +1,14 @@
 import axios from "axios";
-import { API_URL, API_KEY } from "./constants";
+import { getApiUrl, API_KEY } from "./constants";
 
 export const apiClient = axios.create({
-  baseURL: API_URL,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 apiClient.interceptors.request.use((config) => {
+  config.baseURL = getApiUrl();
   config.headers.set("x-api-key", API_KEY);
   return config;
 });

@@ -11,6 +11,12 @@ export class Order {
   @Column('jsonb')
   products: { id: number; name: string; rate: number; qty: number }[];
 
-  @Column('decimal')
+  @Column({
+    type: 'decimal',
+    transformer: {
+      to: (value: number) => value,
+      from: (value: string | number) => Number(value) || 0,
+    },
+  })
   totalAmount: number;
 }

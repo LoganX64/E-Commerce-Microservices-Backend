@@ -71,6 +71,7 @@ services:
     ports:
       - "3000:3000"
     environment:
+      INTERNAL_API_URL: http://api-gateway:3001
       NEXT_PUBLIC_API_URL: http://localhost:3001
       NEXT_PUBLIC_API_KEY: supersecret123
     depends_on:

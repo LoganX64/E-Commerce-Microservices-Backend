@@ -43,7 +43,7 @@ export function OrderTable({ orders }: { orders: Order[] }) {
                   {order.products.length} item{order.products.length !== 1 ? "s" : ""}
                 </TableCell>
                 <TableCell className="text-card-foreground">
-                  ${order.totalAmount.toFixed(2)}
+                  ${Number(order.totalAmount).toFixed(2)}
                 </TableCell>
                 <TableCell>
                   <Button
@@ -77,7 +77,7 @@ export function OrderTable({ orders }: { orders: Order[] }) {
                 {order.customer.name}
               </p>
               <p className="text-xs text-muted-foreground">
-                {order.products.length} item{order.products.length !== 1 ? "s" : ""} &middot; ${order.totalAmount.toFixed(2)}
+                {order.products.length} item{order.products.length !== 1 ? "s" : ""} &middot; ${Number(order.totalAmount).toFixed(2)}
               </p>
             </div>
 

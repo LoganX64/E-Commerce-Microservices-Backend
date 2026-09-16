@@ -32,7 +32,7 @@ export function OrderDetail({ order }: { order: Order }) {
           <div className="text-right">
             <p className="text-sm text-muted-foreground">Total</p>
             <p className="text-xl font-bold text-card-foreground">
-              ${order.totalAmount.toFixed(2)}
+              ${Number(order.totalAmount).toFixed(2)}
             </p>
           </div>
         </div>
@@ -50,11 +50,11 @@ export function OrderDetail({ order }: { order: Order }) {
                 <div>
                   <p className="font-medium text-card-foreground">{product.name}</p>
                   <p className="text-sm text-muted-foreground">
-                    ${product.rate.toFixed(2)} × {product.qty}
+                    ${Number(product.rate).toFixed(2)} × {product.qty}
                   </p>
                 </div>
                 <p className="font-medium text-card-foreground">
-                  ${(product.rate * product.qty).toFixed(2)}
+                  ${(Number(product.rate) * product.qty).toFixed(2)}
                 </p>
               </div>
             ))}
