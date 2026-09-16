@@ -6,10 +6,11 @@ A complete microservices-based backend built with NestJS, Docker, PostgreSQL, AP
 
 ## Demo
 
-> A video walkthrough of the application will be available soon.
-
-<!-- Replace the line below with your video link -->
-<!-- [![Video Demo](https://img.shields.io/badge/Watch%20Demo-Video-red)](YOUR_VIDEO_URL_HERE) -->
+<p align="center">
+  <a href="https://youtu.be/GYEdDsn8QDs">
+    <img src="https://img.youtube.com/vi/GYEdDsn8QDs/maxresdefault.jpg" alt="Video Demo" width="700">
+  </a>
+</p>
 
 ---
 
