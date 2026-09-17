@@ -7,11 +7,10 @@ A complete microservices-based backend built with NestJS, Docker, PostgreSQL, AP
 ## Demo
 
 <p align="center">
-  <a href="https://youtu.be/BCANFdqy7ZU">
-    <img src="https://img.youtube.com/vi/BCANFdqy7ZU/0.jpg" alt="Video Demo" width="700">
+  <a href="https://youtu.be/BCANFdqy7ZU" target="_blank" rel="noopener noreferrer">
+    <strong>▶️ Watch Demo on YouTube</strong>
   </a>
 </p>
-
 ---
 
 ## Table of Contents
